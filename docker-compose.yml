@@ -1,0 +1,93 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: companypulse_postgres
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_NAME:-companypulse_db}
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres123}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-companypulse_db}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: companypulse_redis
+    restart: always
+    ports:
+      - "6379:6379"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: companypulse_backend
+    restart: always
+    environment:
+      SECRET_KEY: ${SECRET_KEY:-companypulse-prod-secret-key-2026}
+      DEBUG: ${DEBUG:-False}
+      ALLOWED_HOSTS: "*"
+      DB_NAME: ${DB_NAME:-companypulse_db}
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres123}
+      DB_HOST: db
+      DB_PORT: 5432
+      REDIS_URL: redis://redis:6379/0
+      OTP_DEV_MODE: ${OTP_DEV_MODE:-True}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@companypulse.com}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-Admin@123456}
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    ports:
+      - "8000:8000"
+    volumes:
+      - backend_media:/app/media
+      - backend_static:/app/staticfiles
+
+  celery:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: companypulse_celery
+    restart: always
+    command: celery -A config worker --loglevel=info
+    environment:
+      SECRET_KEY: ${SECRET_KEY:-companypulse-prod-secret-key-2026}
+      DEBUG: ${DEBUG:-False}
+      DB_NAME: ${DB_NAME:-companypulse_db}
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres123}
+      DB_HOST: db
+      DB_PORT: 5432
+      REDIS_URL: redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
+      - backend
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: companypulse_frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
+  backend_media:
+  backend_static:

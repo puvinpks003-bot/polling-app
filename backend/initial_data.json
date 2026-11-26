@@ -1,0 +1,2145 @@
+[
+{
+  "model": "core.adminuser",
+  "fields": {
+    "password": "pbkdf2_sha256$1000000$sNEt9QfnfoSXTZVMMrP6lC$UUAM4Kobw9G4Oh9FnVzcq3kMybyOQwHOYAdJ+2Wo/no=",
+    "last_login": null,
+    "is_superuser": true,
+    "username": "admin",
+    "first_name": "System",
+    "last_name": "Administrator",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2026-11-25T10:27:26.567Z",
+    "email": "admin@companypulse.com",
+    "phone_number": null,
+    "department": "Management",
+    "is_super_admin": true,
+    "created_at": "2026-11-25T10:27:26.567Z",
+    "updated_at": "2026-11-25T10:27:26.943Z",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "core.department",
+  "pk": 1,
+  "fields": {
+    "name": "Engineering",
+    "code": "ENG",
+    "description": "Product Development & Engineering",
+    "created_at": "2026-11-25T10:27:28.680Z",
+    "updated_at": "2026-11-25T10:27:28.680Z"
+  }
+},
+{
+  "model": "core.department",
+  "pk": 2,
+  "fields": {
+    "name": "Human Resources",
+    "code": "HR",
+    "description": "People Operations & Culture",
+    "created_at": "2026-11-25T10:27:28.685Z",
+    "updated_at": "2026-11-25T10:27:28.685Z"
+  }
+},
+{
+  "model": "core.department",
+  "pk": 3,
+  "fields": {
+    "name": "Marketing",
+    "code": "MKT",
+    "description": "Brand Strategy & Growth Marketing",
+    "created_at": "2026-11-25T10:27:28.690Z",
+    "updated_at": "2026-11-25T10:27:28.690Z"
+  }
+},
+{
+  "model": "core.department",
+  "pk": 4,
+  "fields": {
+    "name": "Sales",
+    "code": "SLS",
+    "description": "Business Development & Enterprise Sales",
+    "created_at": "2026-11-25T10:27:28.695Z",
+    "updated_at": "2026-11-25T10:27:28.695Z"
+  }
+},
+{
+  "model": "core.department",
+  "pk": 5,
+  "fields": {
+    "name": "Operations",
+    "code": "OPS",
+    "description": "Facilities & Business Operations",
+    "created_at": "2026-11-25T10:27:28.699Z",
+    "updated_at": "2026-11-25T10:27:28.699Z"
+  }
+},
+{
+  "model": "core.employee",
+  "pk": 1,
+  "fields": {
+    "employee_id": "EMP001",
+    "full_name": "Rahul Sharma",
+    "mobile_number": "+919876543210",
+    "email": "rahul.s@companypulse.com",
+    "department": 1,
+    "designation": "Senior Software Engineer",
+    "joining_date": "2026-11-25",
+    "is_active": true,
+    "created_at": "2026-11-25T10:27:28.734Z",
+    "updated_at": "2026-11-25T10:27:28.734Z"
+  }
+},
+{
+  "model": "core.employee",
+  "pk": 2,
+  "fields": {
+    "employee_id": "EMP002",
+    "full_name": "Priya Patel",
+    "mobile_number": "+919876543211",
+    "email": "priya.p@companypulse.com",
+    "department": 2,
+    "designation": "HR Business Partner",
+    "joining_date": "2026-11-25",
+    "is_active": true,
+    "created_at": "2026-11-25T10:27:28.754Z",
+    "updated_at": "2026-11-25T10:27:28.754Z"
+  }
+},
+{
+  "model": "core.employee",
+  "pk": 3,
+  "fields": {
+    "employee_id": "EMP003",
+    "full_name": "Ananya Verma",
+    "mobile_number": "+919876543212",
+    "email": "ananya.v@companypulse.com",
+    "department": 3,
+    "designation": "Marketing Lead",
+    "joining_date": "2026-11-25",
+    "is_active": true,
+    "created_at": "2026-11-25T10:27:28.754Z",
+    "updated_at": "2026-11-25T10:27:28.754Z"
+  }
+},
+{
+  "model": "core.employee",
+  "pk": 4,
+  "fields": {
+    "employee_id": "EMP004",
+    "full_name": "David Miller",
+    "mobile_number": "+919876543213",
+    "email": "david.m@companypulse.com",
+    "department": 4,
+    "designation": "Enterprise Account Executive",
+    "joining_date": "2026-11-25",
+    "is_active": true,
+    "created_at": "2026-11-25T10:27:28.754Z",
+    "updated_at": "2026-11-25T10:27:28.754Z"
+  }
+},
+{
+  "model": "core.employee",
+  "pk": 5,
+  "fields": {
+    "employee_id": "EMP005",
+    "full_name": "Sarah Jenkins",
+    "mobile_number": "+919876543214",
+    "email": "sarah.j@companypulse.com",
+    "department": 5,
+    "designation": "Operations Manager",
+    "joining_date": "2026-11-25",
+    "is_active": true,
+    "created_at": "2026-11-25T10:27:28.772Z",
+    "updated_at": "2026-11-25T10:27:28.772Z"
+  }
+},
+{
+  "model": "core.employee",
+  "pk": 6,
+  "fields": {
+    "employee_id": "EMP01",
+    "full_name": "Dinesh",
+    "mobile_number": "+918883543675",
+    "email": "dinesh@gmail.com",
+    "department": 1,
+    "designation": "Site Manager",
+    "joining_date": "2026-11-25",
+    "is_active": true,
+    "created_at": "2026-11-25T11:02:07.873Z",
+    "updated_at": "2026-11-25T11:26:26.354Z"
+  }
+},
+{
+  "model": "core.pollcategory",
+  "pk": 1,
+  "fields": {
+    "name": "Workplace & Facilities",
+    "description": "Office amenities, desks, food, and remote work policies",
+    "color": "#3b82f6",
+    "created_at": "2026-11-25T10:27:28.706Z"
+  }
+},
+{
+  "model": "core.pollcategory",
+  "pk": 2,
+  "fields": {
+    "name": "Benefits & Perks",
+    "description": "Health insurance, stipends, and wellness allowances",
+    "color": "#10b981",
+    "created_at": "2026-11-25T10:27:28.706Z"
+  }
+},
+{
+  "model": "core.pollcategory",
+  "pk": 3,
+  "fields": {
+    "name": "Company Culture",
+    "description": "Team events, feedback, values, and celebrations",
+    "color": "#8b5cf6",
+    "created_at": "2026-11-25T10:27:28.706Z"
+  }
+},
+{
+  "model": "core.pollcategory",
+  "pk": 4,
+  "fields": {
+    "name": "Product & Strategy",
+    "description": "Internal toolings, roadmap priorities, and suggestions",
+    "color": "#f59e0b",
+    "created_at": "2026-11-25T10:27:28.716Z"
+  }
+},
+{
+  "model": "core.pollcategory",
+  "pk": 5,
+  "fields": {
+    "name": "team outing",
+    "description": "",
+    "color": "#3b82f6",
+    "created_at": "2026-11-26T05:28:25.586Z"
+  }
+},
+{
+  "model": "core.poll",
+  "pk": 1,
+  "fields": {
+    "title": "Preferred Hybrid Work Model for Q3/Q4",
+    "description": "We value your input in shaping our upcoming hybrid and in-office work policies. Please choose your ideal schedule.",
+    "category": 1,
+    "cover_image": "",
+    "start_datetime": "2026-11-23T10:27:28.772Z",
+    "end_datetime": "2026-12-09T10:27:28.772Z",
+    "voting_type": "single_choice",
+    "target_audience": "all",
+    "anonymous_voting": true,
+    "allow_comments": true,
+    "results_visibility": "after_voting",
+    "status": "active",
+    "created_by": [
+      "admin"
+    ],
+    "created_at": "2026-11-25T10:27:28.772Z",
+    "updated_at": "2026-11-25T10:27:28.772Z"
+  }
+},
+{
+  "model": "core.poll",
+  "pk": 3,
+  "fields": {
+    "title": "Should we introduce Friday Focus Hours (No Internal Meetings)?",
+    "description": "Proposal: Dedicate Fridays from 1:00 PM to 6:00 PM exclusively for deep focused work with zero scheduled internal meetings.",
+    "category": 1,
+    "cover_image": "",
+    "start_datetime": "2026-11-22T10:27:28.772Z",
+    "end_datetime": "2026-12-02T10:27:28.772Z",
+    "voting_type": "yes_no",
+    "target_audience": "all",
+    "anonymous_voting": true,
+    "allow_comments": true,
+    "results_visibility": "after_voting",
+    "status": "active",
+    "created_by": [
+      "admin"
+    ],
+    "created_at": "2026-11-25T10:27:28.815Z",
+    "updated_at": "2026-11-25T10:27:28.815Z"
+  }
+},
+{
+  "model": "core.poll",
+  "pk": 10,
+  "fields": {
+    "title": "Movie Outing",
+    "description": "Choose one movie",
+    "category": 5,
+    "cover_image": "",
+    "start_datetime": "2026-11-26T07:19:00Z",
+    "end_datetime": "2026-11-26T07:26:00Z",
+    "voting_type": "single_choice",
+    "target_audience": "all",
+    "anonymous_voting": false,
+    "allow_comments": true,
+    "results_visibility": "after_closing",
+    "status": "closed",
+    "created_by": [
+      "admin"
+    ],
+    "created_at": "2026-11-26T07:21:26.914Z",
+    "updated_at": "2026-11-26T07:21:27.065Z"
+  }
+},
+{
+  "model": "core.polloption",
+  "pk": 1,
+  "fields": {
+    "poll": 1,
+    "text": "2 Days Office / 3 Days Remote",
+    "order": 1,
+    "created_at": "2026-11-25T10:27:28.772Z"
+  }
+},
+{
+  "model": "core.polloption",
+  "pk": 2,
+  "fields": {
+    "poll": 1,
+    "text": "3 Days Office / 2 Days Remote",
+    "order": 2,
+    "created_at": "2026-11-25T10:27:28.785Z"
+  }
+},
+{
+  "model": "core.polloption",
+  "pk": 3,
+  "fields": {
+    "poll": 1,
+    "text": "Full Flexibility (Choose as needed)",
+    "order": 3,
+    "created_at": "2026-11-25T10:27:28.786Z"
+  }
+},
+{
+  "model": "core.polloption",
+  "pk": 4,
+  "fields": {
+    "poll": 1,
+    "text": "100% Remote-First",
+    "order": 4,
+    "created_at": "2026-11-25T10:27:28.786Z"
+  }
+},
+{
+  "model": "core.polloption",
+  "pk": 9,
+  "fields": {
+    "poll": 3,
+    "text": "Yes, definitely adopt focus hours",
+    "order": 1,
+    "created_at": "2026-11-25T10:27:28.822Z"
+  }
+},
+{
+  "model": "core.polloption",
+  "pk": 10,
+  "fields": {
+    "poll": 3,
+    "text": "No, keep current meeting guidelines",
+    "order": 2,
+    "created_at": "2026-11-25T10:27:28.824Z"
+  }
+},
+{
+  "model": "core.polloption",
+  "pk": 29,
+  "fields": {
+    "poll": 10,
+    "text": "paruthiveeran",
+    "order": 1,
+    "created_at": "2026-11-26T07:21:26.918Z"
+  }
+},
+{
+  "model": "core.polloption",
+  "pk": 30,
+  "fields": {
+    "poll": 10,
+    "text": "Vaaranam Aayiram",
+    "order": 2,
+    "created_at": "2026-11-26T07:21:26.946Z"
+  }
+},
+{
+  "model": "core.vote",
+  "pk": 10,
+  "fields": {
+    "poll": 10,
+    "employee": 2,
+    "ip_address": "127.0.0.1",
+    "created_at": "2026-11-26T07:22:09.769Z"
+  }
+},
+{
+  "model": "core.voteselection",
+  "pk": 10,
+  "fields": {
+    "poll": 1,
+    "vote": null,
+    "option": 2,
+    "rating_value": null,
+    "created_at": "2026-11-25T12:33:50.117Z"
+  }
+},
+{
+  "model": "core.voteselection",
+  "pk": 12,
+  "fields": {
+    "poll": 10,
+    "vote": 10,
+    "option": 29,
+    "rating_value": null,
+    "created_at": "2026-11-26T07:22:09.770Z"
+  }
+},
+{
+  "model": "core.otpverification",
+  "pk": 1,
+  "fields": {
+    "mobile_number": "+919876543210",
+    "otp_hash": "5aa2ca7006ed6387f8d4a7da3c5204ca4b8be73439540736ac022e4db47c6798",
+    "attempts": 0,
+    "is_verified": true,
+    "expires_at": "2026-11-25T11:15:41.868Z",
+    "created_at": "2026-11-25T11:10:41.881Z"
+  }
+},
+{
+  "model": "core.otpverification",
+  "pk": 2,
+  "fields": {
+    "mobile_number": "+919876543210",
+    "otp_hash": "5ab8ba517770d9ba0e40258f0dbe761f73f4b6a21b9c9390cd8f5955eb9f98ad",
+    "attempts": 0,
+    "is_verified": true,
+    "expires_at": "2026-11-25T11:22:47.766Z",
+    "created_at": "2026-11-25T11:17:47.787Z"
+  }
+},
+{
+  "model": "core.otpverification",
+  "pk": 3,
+  "fields": {
+    "mobile_number": "+919876543214",
+    "otp_hash": "1a426ba9290f9f876dfce68e28a7671ffed3c539655eb241722c15cf36b19601",
+    "attempts": 0,
+    "is_verified": true,
+    "expires_at": "2026-11-25T11:27:14.927Z",
+    "created_at": "2026-11-25T11:22:14.943Z"
+  }
+},
+{
+  "model": "core.otpverification",
+  "pk": 4,
+  "fields": {
+    "mobile_number": "+919876543211",
+    "otp_hash": "08e6f3d8e4e709bb62475623451872e8ce25e6ded911b2ef7fb81444cdc861ca",
+    "attempts": 0,
+    "is_verified": true,
+    "expires_at": "2026-11-25T11:28:09.808Z",
+    "created_at": "2026-11-25T11:23:09.812Z"
+  }
+},
+{
+  "model": "core.otpverification",
+  "pk": 5,
+  "fields": {
+    "mobile_number": "+919876543212",
+    "otp_hash": "4b4a2202b26b55c6d41a2376b8d23f3be21a5e25509e8fb26e47697407d35af7",
+    "attempts": 0,
+    "is_verified": true,
+    "expires_at": "2026-11-25T11:28:55.489Z",
+    "created_at": "2026-11-25T11:23:55.496Z"
+  }
+},
+{
+  "model": "core.otpverification",
+  "pk": 6,
+  "fields": {
+    "mobile_number": "+919876543213",
+    "otp_hash": "19a7969b5fddf51ececbb6bcdb79a303f0925b39606dd81e92046ccac8be70fb",
+    "attempts": 0,
+    "is_verified": true,
+    "expires_at": "2026-11-25T11:29:23.518Z",
+    "created_at": "2026-11-25T11:24:23.524Z"
+  }
+},
+{
+  "model": "core.otpverification",
+  "pk": 7,
+  "fields": {
+    "mobile_number": "+918883543675",
+    "otp_hash": "a099242b4f894c25dc0c852cc057c45583a8a1323cde318d9c8f88629fc89dd4",
+    "attempts": 0,
+    "is_verified": true,
+    "expires_at": "2026-11-25T11:43:13.186Z",
+    "created_at": "2026-11-25T11:38:13.196Z"
+  }
+},
+{
+  "model": "core.otpverification",
+  "pk": 8,
+  "fields": {
+    "mobile_number": "+918883543675",
+    "otp_hash": "a4b7ba8cf8b8003c585102b0e7940c9a1151fa189c9e2b8539f937e4c89075f4",
+    "attempts": 0,
+    "is_verified": true,
+    "expires_at": "2026-11-25T11:46:23.488Z",
+    "created_at": "2026-11-25T11:41:23.517Z"
+  }
+},
+{
+  "model": "core.otpverification",
+  "pk": 9,
+  "fields": {
+    "mobile_number": "+918883543675",
+    "otp_hash": "e781ccdf6235b2e5259ae9519b23109aea6929191ac8b5e9b9a426d1274af335",
+    "attempts": 0,
+    "is_verified": true,
+    "expires_at": "2026-11-25T11:59:45.232Z",
+    "created_at": "2026-11-25T11:54:45.300Z"
+  }
+},
+{
+  "model": "core.otpverification",
+  "pk": 10,
+  "fields": {
+    "mobile_number": "+918883543675",
+    "otp_hash": "e70d8fa94b9f0dc0fb0c337a6c25f0f3e03ea72e38e20198a9873c84f90ab335",
+    "attempts": 0,
+    "is_verified": true,
+    "expires_at": "2026-11-25T12:10:11.661Z",
+    "created_at": "2026-11-25T12:05:11.682Z"
+  }
+},
+{
+  "model": "core.otpverification",
+  "pk": 11,
+  "fields": {
+    "mobile_number": "+919876543210",
+    "otp_hash": "43b14638fde9e0e607f4055287d429bbe88c82b12a6373a90cee6be9eeea31ab",
+    "attempts": 0,
+    "is_verified": true,
+    "expires_at": "2026-11-25T12:34:26.263Z",
+    "created_at": "2026-11-25T12:29:26.282Z"
+  }
+},
+{
+  "model": "core.otpverification",
+  "pk": 12,
+  "fields": {
+    "mobile_number": "+918883543675",
+    "otp_hash": "83e1c0b7ad478ad107d313e2996a6599b2bff9a270dba573e6a63b656eb76500",
+    "attempts": 0,
+    "is_verified": true,
+    "expires_at": "2026-11-25T12:34:47.450Z",
+    "created_at": "2026-11-25T12:29:47.456Z"
+  }
+},
+{
+  "model": "core.otpverification",
+  "pk": 13,
+  "fields": {
+    "mobile_number": "+918883543675",
+    "otp_hash": "bf5ac83a8fe4b1d1708aab1dd659f70ac4e08938d4aecfbf4beec05413769ab5",
+    "attempts": 0,
+    "is_verified": true,
+    "expires_at": "2026-11-25T12:38:14.564Z",
+    "created_at": "2026-11-25T12:33:14.573Z"
+  }
+},
+{
+  "model": "core.otpverification",
+  "pk": 14,
+  "fields": {
+    "mobile_number": "+919876543210",
+    "otp_hash": "c8f520e849b9642fba8b88b462bf5710fb29aff852d27d294a29285cd42e5b6e",
+    "attempts": 0,
+    "is_verified": true,
+    "expires_at": "2026-11-26T04:41:10.575Z",
+    "created_at": "2026-11-26T04:36:10.623Z"
+  }
+},
+{
+  "model": "core.otpverification",
+  "pk": 15,
+  "fields": {
+    "mobile_number": "+919876543210",
+    "otp_hash": "705d36a1ee9a15ddce04c4e4c11cc3cd8c4d315c096f04ddd0e69aae9a53cabb",
+    "attempts": 0,
+    "is_verified": true,
+    "expires_at": "2026-11-26T05:02:08.011Z",
+    "created_at": "2026-11-26T04:57:08.027Z"
+  }
+},
+{
+  "model": "core.otpverification",
+  "pk": 16,
+  "fields": {
+    "mobile_number": "+919876543210",
+    "otp_hash": "3d6cd1388e5af3f0eb5566f8a727b51c7349360fb2bf2d3ddf9cbbb1d1faf457",
+    "attempts": 0,
+    "is_verified": true,
+    "expires_at": "2026-11-26T05:40:16.494Z",
+    "created_at": "2026-11-26T05:35:16.499Z"
+  }
+},
+{
+  "model": "core.otpverification",
+  "pk": 17,
+  "fields": {
+    "mobile_number": "+919876543211",
+    "otp_hash": "c5e38171e810b735bb9df75abe15e5de5d256b21d1394bba0b9006830cb0dcfc",
+    "attempts": 0,
+    "is_verified": true,
+    "expires_at": "2026-11-26T06:13:34.744Z",
+    "created_at": "2026-11-26T06:08:34.754Z"
+  }
+},
+{
+  "model": "core.otpverification",
+  "pk": 18,
+  "fields": {
+    "mobile_number": "+919876543210",
+    "otp_hash": "e46b552e2253bb35f8c3ebb4422a6af98339de26d6c12593058c8367eebb65f7",
+    "attempts": 0,
+    "is_verified": true,
+    "expires_at": "2026-11-26T07:27:43.856Z",
+    "created_at": "2026-11-26T07:22:43.862Z"
+  }
+},
+{
+  "model": "core.otpverification",
+  "pk": 24,
+  "fields": {
+    "mobile_number": "+919876543210",
+    "otp_hash": "1a49be22d62db39fd27b3f67b412557c80cebb10f28e0475837773105b5ecdd8",
+    "attempts": 0,
+    "is_verified": false,
+    "expires_at": "2026-11-26T08:51:39.194Z",
+    "created_at": "2026-11-26T08:46:39.266Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 1,
+  "fields": {
+    "recipient_employee": 1,
+    "recipient_admin": null,
+    "title": "Vote Recorded Successfully",
+    "message": "Your vote for 'Annual Team Offsite Destination' was successfully recorded.",
+    "notification_type": "vote_confirmed",
+    "link": "/employee/polls/2",
+    "is_read": false,
+    "created_at": "2026-11-25T11:11:30.948Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 2,
+  "fields": {
+    "recipient_employee": 5,
+    "recipient_admin": null,
+    "title": "Vote Recorded Successfully",
+    "message": "Your vote for 'Annual Team Offsite Destination' was successfully recorded.",
+    "notification_type": "vote_confirmed",
+    "link": "/employee/polls/2",
+    "is_read": false,
+    "created_at": "2026-11-25T11:22:42.018Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 3,
+  "fields": {
+    "recipient_employee": 2,
+    "recipient_admin": null,
+    "title": "Vote Recorded Successfully",
+    "message": "Your vote for 'Annual Team Offsite Destination' was successfully recorded.",
+    "notification_type": "vote_confirmed",
+    "link": "/employee/polls/2",
+    "is_read": false,
+    "created_at": "2026-11-25T11:23:33.400Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 4,
+  "fields": {
+    "recipient_employee": 3,
+    "recipient_admin": null,
+    "title": "Vote Recorded Successfully",
+    "message": "Your vote for 'Annual Team Offsite Destination' was successfully recorded.",
+    "notification_type": "vote_confirmed",
+    "link": "/employee/polls/2",
+    "is_read": false,
+    "created_at": "2026-11-25T11:24:07.099Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 5,
+  "fields": {
+    "recipient_employee": 4,
+    "recipient_admin": null,
+    "title": "Vote Recorded Successfully",
+    "message": "Your vote for 'Annual Team Offsite Destination' was successfully recorded.",
+    "notification_type": "vote_confirmed",
+    "link": "/employee/polls/2",
+    "is_read": false,
+    "created_at": "2026-11-25T11:24:31.500Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 6,
+  "fields": {
+    "recipient_employee": 6,
+    "recipient_admin": null,
+    "title": "Vote Recorded Successfully",
+    "message": "Your vote for 'Annual Team Offsite Destination' was successfully recorded.",
+    "notification_type": "vote_confirmed",
+    "link": "/employee/polls/2",
+    "is_read": true,
+    "created_at": "2026-11-25T11:38:26.720Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 7,
+  "fields": {
+    "recipient_employee": 6,
+    "recipient_admin": null,
+    "title": "Vote Reset: Re-submission Enabled",
+    "message": "The administrator has reset your previous vote on 'Annual Team Offsite Destination'. You are now eligible to re-submit your vote.",
+    "notification_type": "system",
+    "link": "/employee/polls/2",
+    "is_read": true,
+    "created_at": "2026-11-25T11:59:15.446Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 8,
+  "fields": {
+    "recipient_employee": 6,
+    "recipient_admin": null,
+    "title": "Vote Recorded Successfully",
+    "message": "Your vote for 'Annual Team Offsite Destination' was successfully recorded.",
+    "notification_type": "vote_confirmed",
+    "link": "/employee/polls/2",
+    "is_read": true,
+    "created_at": "2026-11-25T11:59:49.338Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 9,
+  "fields": {
+    "recipient_employee": 6,
+    "recipient_admin": null,
+    "title": "New Poll: wqdq",
+    "message": "You are invited to vote in 'wqdq'. Deadline: 25-11-2026 05:50 PM IST.",
+    "notification_type": "poll_new",
+    "link": "/employee/polls/4",
+    "is_read": false,
+    "created_at": "2026-11-25T12:15:41.130Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 10,
+  "fields": {
+    "recipient_employee": 5,
+    "recipient_admin": null,
+    "title": "New Poll: wqdq",
+    "message": "You are invited to vote in 'wqdq'. Deadline: 25-11-2026 05:50 PM IST.",
+    "notification_type": "poll_new",
+    "link": "/employee/polls/4",
+    "is_read": false,
+    "created_at": "2026-11-25T12:15:41.130Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 11,
+  "fields": {
+    "recipient_employee": 2,
+    "recipient_admin": null,
+    "title": "New Poll: wqdq",
+    "message": "You are invited to vote in 'wqdq'. Deadline: 25-11-2026 05:50 PM IST.",
+    "notification_type": "poll_new",
+    "link": "/employee/polls/4",
+    "is_read": false,
+    "created_at": "2026-11-25T12:15:41.130Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 12,
+  "fields": {
+    "recipient_employee": 3,
+    "recipient_admin": null,
+    "title": "New Poll: wqdq",
+    "message": "You are invited to vote in 'wqdq'. Deadline: 25-11-2026 05:50 PM IST.",
+    "notification_type": "poll_new",
+    "link": "/employee/polls/4",
+    "is_read": false,
+    "created_at": "2026-11-25T12:15:41.130Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 13,
+  "fields": {
+    "recipient_employee": 4,
+    "recipient_admin": null,
+    "title": "New Poll: wqdq",
+    "message": "You are invited to vote in 'wqdq'. Deadline: 25-11-2026 05:50 PM IST.",
+    "notification_type": "poll_new",
+    "link": "/employee/polls/4",
+    "is_read": false,
+    "created_at": "2026-11-25T12:15:41.130Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 14,
+  "fields": {
+    "recipient_employee": 1,
+    "recipient_admin": null,
+    "title": "New Poll: wqdq",
+    "message": "You are invited to vote in 'wqdq'. Deadline: 25-11-2026 05:50 PM IST.",
+    "notification_type": "poll_new",
+    "link": "/employee/polls/4",
+    "is_read": false,
+    "created_at": "2026-11-25T12:15:41.130Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 15,
+  "fields": {
+    "recipient_employee": 6,
+    "recipient_admin": null,
+    "title": "Vote Recorded Successfully",
+    "message": "Your vote for 'wqdq' was successfully recorded.",
+    "notification_type": "vote_confirmed",
+    "link": "/employee/polls/4",
+    "is_read": false,
+    "created_at": "2026-11-25T12:16:26.775Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 16,
+  "fields": {
+    "recipient_employee": 6,
+    "recipient_admin": null,
+    "title": "Vote Recorded Successfully",
+    "message": "Your vote for 'Preferred Hybrid Work Model for Q3/Q4' was successfully recorded.",
+    "notification_type": "vote_confirmed",
+    "link": "/employee/polls/1",
+    "is_read": false,
+    "created_at": "2026-11-25T12:33:50.128Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 17,
+  "fields": {
+    "recipient_employee": 6,
+    "recipient_admin": null,
+    "title": "Vote Reset: Re-submission Enabled",
+    "message": "The administrator has reset your previous vote on 'Preferred Hybrid Work Model for Q3/Q4'. You are now eligible to re-submit your vote.",
+    "notification_type": "system",
+    "link": "/employee/polls/1",
+    "is_read": false,
+    "created_at": "2026-11-25T12:35:12.801Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 18,
+  "fields": {
+    "recipient_employee": 6,
+    "recipient_admin": null,
+    "title": "New Poll: Lunch - Team out",
+    "message": "You are invited to vote in 'Lunch - Team out'. Deadline: 26-11-2026 10:55 AM IST.",
+    "notification_type": "poll_new",
+    "link": "/employee/polls/5",
+    "is_read": false,
+    "created_at": "2026-11-26T05:34:50.786Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 19,
+  "fields": {
+    "recipient_employee": 5,
+    "recipient_admin": null,
+    "title": "New Poll: Lunch - Team out",
+    "message": "You are invited to vote in 'Lunch - Team out'. Deadline: 26-11-2026 10:55 AM IST.",
+    "notification_type": "poll_new",
+    "link": "/employee/polls/5",
+    "is_read": false,
+    "created_at": "2026-11-26T05:34:50.786Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 20,
+  "fields": {
+    "recipient_employee": 2,
+    "recipient_admin": null,
+    "title": "New Poll: Lunch - Team out",
+    "message": "You are invited to vote in 'Lunch - Team out'. Deadline: 26-11-2026 10:55 AM IST.",
+    "notification_type": "poll_new",
+    "link": "/employee/polls/5",
+    "is_read": false,
+    "created_at": "2026-11-26T05:34:50.788Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 21,
+  "fields": {
+    "recipient_employee": 3,
+    "recipient_admin": null,
+    "title": "New Poll: Lunch - Team out",
+    "message": "You are invited to vote in 'Lunch - Team out'. Deadline: 26-11-2026 10:55 AM IST.",
+    "notification_type": "poll_new",
+    "link": "/employee/polls/5",
+    "is_read": false,
+    "created_at": "2026-11-26T05:34:50.788Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 22,
+  "fields": {
+    "recipient_employee": 4,
+    "recipient_admin": null,
+    "title": "New Poll: Lunch - Team out",
+    "message": "You are invited to vote in 'Lunch - Team out'. Deadline: 26-11-2026 10:55 AM IST.",
+    "notification_type": "poll_new",
+    "link": "/employee/polls/5",
+    "is_read": false,
+    "created_at": "2026-11-26T05:34:50.788Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 23,
+  "fields": {
+    "recipient_employee": 1,
+    "recipient_admin": null,
+    "title": "New Poll: Lunch - Team out",
+    "message": "You are invited to vote in 'Lunch - Team out'. Deadline: 26-11-2026 10:55 AM IST.",
+    "notification_type": "poll_new",
+    "link": "/employee/polls/5",
+    "is_read": false,
+    "created_at": "2026-11-26T05:34:50.788Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 24,
+  "fields": {
+    "recipient_employee": 6,
+    "recipient_admin": null,
+    "title": "New Poll: Movie Outing",
+    "message": "You are invited to vote in 'Movie Outing'. Deadline: 26-11-2026 11:40 AM IST.",
+    "notification_type": "poll_new",
+    "link": "/employee/polls/6",
+    "is_read": false,
+    "created_at": "2026-11-26T06:07:30.674Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 25,
+  "fields": {
+    "recipient_employee": 5,
+    "recipient_admin": null,
+    "title": "New Poll: Movie Outing",
+    "message": "You are invited to vote in 'Movie Outing'. Deadline: 26-11-2026 11:40 AM IST.",
+    "notification_type": "poll_new",
+    "link": "/employee/polls/6",
+    "is_read": false,
+    "created_at": "2026-11-26T06:07:30.674Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 26,
+  "fields": {
+    "recipient_employee": 2,
+    "recipient_admin": null,
+    "title": "New Poll: Movie Outing",
+    "message": "You are invited to vote in 'Movie Outing'. Deadline: 26-11-2026 11:40 AM IST.",
+    "notification_type": "poll_new",
+    "link": "/employee/polls/6",
+    "is_read": false,
+    "created_at": "2026-11-26T06:07:30.674Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 27,
+  "fields": {
+    "recipient_employee": 3,
+    "recipient_admin": null,
+    "title": "New Poll: Movie Outing",
+    "message": "You are invited to vote in 'Movie Outing'. Deadline: 26-11-2026 11:40 AM IST.",
+    "notification_type": "poll_new",
+    "link": "/employee/polls/6",
+    "is_read": false,
+    "created_at": "2026-11-26T06:07:30.674Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 28,
+  "fields": {
+    "recipient_employee": 4,
+    "recipient_admin": null,
+    "title": "New Poll: Movie Outing",
+    "message": "You are invited to vote in 'Movie Outing'. Deadline: 26-11-2026 11:40 AM IST.",
+    "notification_type": "poll_new",
+    "link": "/employee/polls/6",
+    "is_read": false,
+    "created_at": "2026-11-26T06:07:30.674Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 29,
+  "fields": {
+    "recipient_employee": 1,
+    "recipient_admin": null,
+    "title": "New Poll: Movie Outing",
+    "message": "You are invited to vote in 'Movie Outing'. Deadline: 26-11-2026 11:40 AM IST.",
+    "notification_type": "poll_new",
+    "link": "/employee/polls/6",
+    "is_read": false,
+    "created_at": "2026-11-26T06:07:30.674Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 30,
+  "fields": {
+    "recipient_employee": 1,
+    "recipient_admin": null,
+    "title": "Vote Recorded Successfully",
+    "message": "Your vote for 'Movie Outing' was successfully recorded.",
+    "notification_type": "vote_confirmed",
+    "link": "/employee/polls/6",
+    "is_read": false,
+    "created_at": "2026-11-26T06:07:50.985Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 31,
+  "fields": {
+    "recipient_employee": 6,
+    "recipient_admin": null,
+    "title": "New Poll: Movie Outing",
+    "message": "You are invited to vote in 'Movie Outing'. Deadline: 26-11-2026 12:56 PM IST.",
+    "notification_type": "poll_new",
+    "link": "/employee/polls/10",
+    "is_read": false,
+    "created_at": "2026-11-26T07:21:27.081Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 32,
+  "fields": {
+    "recipient_employee": 5,
+    "recipient_admin": null,
+    "title": "New Poll: Movie Outing",
+    "message": "You are invited to vote in 'Movie Outing'. Deadline: 26-11-2026 12:56 PM IST.",
+    "notification_type": "poll_new",
+    "link": "/employee/polls/10",
+    "is_read": false,
+    "created_at": "2026-11-26T07:21:27.081Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 33,
+  "fields": {
+    "recipient_employee": 2,
+    "recipient_admin": null,
+    "title": "New Poll: Movie Outing",
+    "message": "You are invited to vote in 'Movie Outing'. Deadline: 26-11-2026 12:56 PM IST.",
+    "notification_type": "poll_new",
+    "link": "/employee/polls/10",
+    "is_read": false,
+    "created_at": "2026-11-26T07:21:27.081Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 34,
+  "fields": {
+    "recipient_employee": 3,
+    "recipient_admin": null,
+    "title": "New Poll: Movie Outing",
+    "message": "You are invited to vote in 'Movie Outing'. Deadline: 26-11-2026 12:56 PM IST.",
+    "notification_type": "poll_new",
+    "link": "/employee/polls/10",
+    "is_read": false,
+    "created_at": "2026-11-26T07:21:27.081Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 35,
+  "fields": {
+    "recipient_employee": 4,
+    "recipient_admin": null,
+    "title": "New Poll: Movie Outing",
+    "message": "You are invited to vote in 'Movie Outing'. Deadline: 26-11-2026 12:56 PM IST.",
+    "notification_type": "poll_new",
+    "link": "/employee/polls/10",
+    "is_read": false,
+    "created_at": "2026-11-26T07:21:27.081Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 36,
+  "fields": {
+    "recipient_employee": 1,
+    "recipient_admin": null,
+    "title": "New Poll: Movie Outing",
+    "message": "You are invited to vote in 'Movie Outing'. Deadline: 26-11-2026 12:56 PM IST.",
+    "notification_type": "poll_new",
+    "link": "/employee/polls/10",
+    "is_read": false,
+    "created_at": "2026-11-26T07:21:27.081Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 37,
+  "fields": {
+    "recipient_employee": 2,
+    "recipient_admin": null,
+    "title": "Vote Recorded Successfully",
+    "message": "Your vote for 'Movie Outing' was successfully recorded.",
+    "notification_type": "vote_confirmed",
+    "link": "/employee/polls/10",
+    "is_read": false,
+    "created_at": "2026-11-26T07:22:09.799Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 1,
+  "fields": {
+    "action": "ADMIN_LOGIN",
+    "user_type": "admin",
+    "actor_id": "1",
+    "actor_name": "admin",
+    "target_model": "",
+    "target_id": "",
+    "details": {
+      "email": "admin@companypulse.com"
+    },
+    "ip_address": "127.0.0.1",
+    "timestamp": "2026-11-25T10:59:03.369Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 2,
+  "fields": {
+    "action": "CREATE_EMPLOYEE",
+    "user_type": "admin",
+    "actor_id": "",
+    "actor_name": "admin",
+    "target_model": "Employee",
+    "target_id": "EMP01",
+    "details": {
+      "full_name": "Dinesh",
+      "mobile": "+918883543675"
+    },
+    "ip_address": null,
+    "timestamp": "2026-11-25T11:02:07.909Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 3,
+  "fields": {
+    "action": "ADMIN_LOGIN",
+    "user_type": "admin",
+    "actor_id": "1",
+    "actor_name": "admin",
+    "target_model": "",
+    "target_id": "",
+    "details": {
+      "email": "admin@companypulse.com"
+    },
+    "ip_address": "127.0.0.1",
+    "timestamp": "2026-11-25T11:04:30.476Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 4,
+  "fields": {
+    "action": "ADMIN_LOGIN",
+    "user_type": "admin",
+    "actor_id": "1",
+    "actor_name": "admin",
+    "target_model": "",
+    "target_id": "",
+    "details": {
+      "email": "admin@companypulse.com"
+    },
+    "ip_address": "127.0.0.1",
+    "timestamp": "2026-11-25T11:05:28.539Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 5,
+  "fields": {
+    "action": "ADMIN_LOGIN",
+    "user_type": "admin",
+    "actor_id": "1",
+    "actor_name": "admin",
+    "target_model": "",
+    "target_id": "",
+    "details": {
+      "email": "admin@companypulse.com"
+    },
+    "ip_address": "127.0.0.1",
+    "timestamp": "2026-11-25T11:05:59.686Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 6,
+  "fields": {
+    "action": "EMPLOYEE_LOGIN",
+    "user_type": "employee",
+    "actor_id": "EMP001",
+    "actor_name": "Rahul Sharma",
+    "target_model": "",
+    "target_id": "",
+    "details": {
+      "mobile": "+919876543210"
+    },
+    "ip_address": "127.0.0.1",
+    "timestamp": "2026-11-25T11:10:54.341Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 7,
+  "fields": {
+    "action": "CAST_VOTE",
+    "user_type": "employee",
+    "actor_id": "EMP001",
+    "actor_name": "Rahul Sharma",
+    "target_model": "Poll",
+    "target_id": "2",
+    "details": {
+      "anonymous": false
+    },
+    "ip_address": null,
+    "timestamp": "2026-11-25T11:11:30.982Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 8,
+  "fields": {
+    "action": "EMPLOYEE_LOGIN",
+    "user_type": "employee",
+    "actor_id": "EMP001",
+    "actor_name": "Rahul Sharma",
+    "target_model": "",
+    "target_id": "",
+    "details": {
+      "mobile": "+919876543210"
+    },
+    "ip_address": "127.0.0.1",
+    "timestamp": "2026-11-25T11:17:48.978Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 9,
+  "fields": {
+    "action": "ADMIN_LOGIN",
+    "user_type": "admin",
+    "actor_id": "1",
+    "actor_name": "admin",
+    "target_model": "",
+    "target_id": "",
+    "details": {
+      "email": "admin@companypulse.com"
+    },
+    "ip_address": "127.0.0.1",
+    "timestamp": "2026-11-25T11:18:52.354Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 10,
+  "fields": {
+    "action": "EMPLOYEE_LOGIN",
+    "user_type": "employee",
+    "actor_id": "EMP005",
+    "actor_name": "Sarah Jenkins",
+    "target_model": "",
+    "target_id": "",
+    "details": {
+      "mobile": "+919876543214"
+    },
+    "ip_address": "127.0.0.1",
+    "timestamp": "2026-11-25T11:22:17.790Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 11,
+  "fields": {
+    "action": "CAST_VOTE",
+    "user_type": "employee",
+    "actor_id": "EMP005",
+    "actor_name": "Sarah Jenkins",
+    "target_model": "Poll",
+    "target_id": "2",
+    "details": {
+      "anonymous": false
+    },
+    "ip_address": null,
+    "timestamp": "2026-11-25T11:22:42.051Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 12,
+  "fields": {
+    "action": "EMPLOYEE_LOGIN",
+    "user_type": "employee",
+    "actor_id": "EMP002",
+    "actor_name": "Priya Patel",
+    "target_model": "",
+    "target_id": "",
+    "details": {
+      "mobile": "+919876543211"
+    },
+    "ip_address": "127.0.0.1",
+    "timestamp": "2026-11-25T11:23:11.574Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 13,
+  "fields": {
+    "action": "CAST_VOTE",
+    "user_type": "employee",
+    "actor_id": "EMP002",
+    "actor_name": "Priya Patel",
+    "target_model": "Poll",
+    "target_id": "2",
+    "details": {
+      "anonymous": false
+    },
+    "ip_address": null,
+    "timestamp": "2026-11-25T11:23:33.418Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 14,
+  "fields": {
+    "action": "EMPLOYEE_LOGIN",
+    "user_type": "employee",
+    "actor_id": "EMP003",
+    "actor_name": "Ananya Verma",
+    "target_model": "",
+    "target_id": "",
+    "details": {
+      "mobile": "+919876543212"
+    },
+    "ip_address": "127.0.0.1",
+    "timestamp": "2026-11-25T11:23:58.925Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 15,
+  "fields": {
+    "action": "CAST_VOTE",
+    "user_type": "employee",
+    "actor_id": "EMP003",
+    "actor_name": "Ananya Verma",
+    "target_model": "Poll",
+    "target_id": "2",
+    "details": {
+      "anonymous": false
+    },
+    "ip_address": null,
+    "timestamp": "2026-11-25T11:24:07.111Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 16,
+  "fields": {
+    "action": "EMPLOYEE_LOGIN",
+    "user_type": "employee",
+    "actor_id": "EMP004",
+    "actor_name": "David Miller",
+    "target_model": "",
+    "target_id": "",
+    "details": {
+      "mobile": "+919876543213"
+    },
+    "ip_address": "127.0.0.1",
+    "timestamp": "2026-11-25T11:24:25.031Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 17,
+  "fields": {
+    "action": "CAST_VOTE",
+    "user_type": "employee",
+    "actor_id": "EMP004",
+    "actor_name": "David Miller",
+    "target_model": "Poll",
+    "target_id": "2",
+    "details": {
+      "anonymous": false
+    },
+    "ip_address": null,
+    "timestamp": "2026-11-25T11:24:31.524Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 18,
+  "fields": {
+    "action": "UPDATE_EMPLOYEE",
+    "user_type": "admin",
+    "actor_id": "",
+    "actor_name": "admin",
+    "target_model": "Employee",
+    "target_id": "EMP01",
+    "details": {
+      "full_name": "Dinesh"
+    },
+    "ip_address": null,
+    "timestamp": "2026-11-25T11:26:26.377Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 19,
+  "fields": {
+    "action": "EMPLOYEE_LOGIN",
+    "user_type": "employee",
+    "actor_id": "EMP01",
+    "actor_name": "Dinesh",
+    "target_model": "",
+    "target_id": "",
+    "details": {
+      "mobile": "+918883543675"
+    },
+    "ip_address": "127.0.0.1",
+    "timestamp": "2026-11-25T11:38:14.670Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 20,
+  "fields": {
+    "action": "CAST_VOTE",
+    "user_type": "employee",
+    "actor_id": "EMP01",
+    "actor_name": "Dinesh",
+    "target_model": "Poll",
+    "target_id": "2",
+    "details": {
+      "anonymous": false
+    },
+    "ip_address": null,
+    "timestamp": "2026-11-25T11:38:26.752Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 21,
+  "fields": {
+    "action": "EMPLOYEE_LOGIN",
+    "user_type": "employee",
+    "actor_id": "EMP01",
+    "actor_name": "Dinesh",
+    "target_model": "",
+    "target_id": "",
+    "details": {
+      "mobile": "+918883543675"
+    },
+    "ip_address": "127.0.0.1",
+    "timestamp": "2026-11-25T11:41:26.824Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 22,
+  "fields": {
+    "action": "EMPLOYEE_LOGIN",
+    "user_type": "employee",
+    "actor_id": "EMP01",
+    "actor_name": "Dinesh",
+    "target_model": "",
+    "target_id": "",
+    "details": {
+      "mobile": "+918883543675"
+    },
+    "ip_address": "127.0.0.1",
+    "timestamp": "2026-11-25T11:55:16.616Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 23,
+  "fields": {
+    "action": "ADMIN_RESET_VOTE",
+    "user_type": "admin",
+    "actor_id": "1",
+    "actor_name": "admin",
+    "target_model": "Poll",
+    "target_id": "2",
+    "details": {
+      "employee_id": "EMP01",
+      "employee_name": "Dinesh",
+      "poll_title": "Annual Team Offsite Destination"
+    },
+    "ip_address": null,
+    "timestamp": "2026-11-25T11:59:15.459Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 24,
+  "fields": {
+    "action": "CAST_VOTE",
+    "user_type": "employee",
+    "actor_id": "EMP01",
+    "actor_name": "Dinesh",
+    "target_model": "Poll",
+    "target_id": "2",
+    "details": {
+      "anonymous": false
+    },
+    "ip_address": null,
+    "timestamp": "2026-11-25T11:59:49.370Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 25,
+  "fields": {
+    "action": "EMPLOYEE_LOGIN",
+    "user_type": "employee",
+    "actor_id": "EMP01",
+    "actor_name": "Dinesh",
+    "target_model": "",
+    "target_id": "",
+    "details": {
+      "mobile": "+918883543675"
+    },
+    "ip_address": "127.0.0.1",
+    "timestamp": "2026-11-25T12:05:16.089Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 26,
+  "fields": {
+    "action": "PUBLISH_POLL",
+    "user_type": "admin",
+    "actor_id": "",
+    "actor_name": "admin",
+    "target_model": "Poll",
+    "target_id": "4",
+    "details": {
+      "title": "wqdq",
+      "status": "active",
+      "eligible_count": 6
+    },
+    "ip_address": null,
+    "timestamp": "2026-11-25T12:15:41.163Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 27,
+  "fields": {
+    "action": "CAST_VOTE",
+    "user_type": "employee",
+    "actor_id": "EMP01",
+    "actor_name": "Dinesh",
+    "target_model": "Poll",
+    "target_id": "4",
+    "details": {
+      "anonymous": false
+    },
+    "ip_address": null,
+    "timestamp": "2026-11-25T12:16:26.897Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 28,
+  "fields": {
+    "action": "EMPLOYEE_LOGIN",
+    "user_type": "employee",
+    "actor_id": "EMP001",
+    "actor_name": "Rahul Sharma",
+    "target_model": "",
+    "target_id": "",
+    "details": {
+      "mobile": "+919876543210"
+    },
+    "ip_address": "127.0.0.1",
+    "timestamp": "2026-11-25T12:29:27.991Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 29,
+  "fields": {
+    "action": "EMPLOYEE_LOGIN",
+    "user_type": "employee",
+    "actor_id": "EMP01",
+    "actor_name": "Dinesh",
+    "target_model": "",
+    "target_id": "",
+    "details": {
+      "mobile": "+918883543675"
+    },
+    "ip_address": "127.0.0.1",
+    "timestamp": "2026-11-25T12:29:49.039Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 30,
+  "fields": {
+    "action": "EMPLOYEE_LOGIN",
+    "user_type": "employee",
+    "actor_id": "EMP01",
+    "actor_name": "Dinesh",
+    "target_model": "",
+    "target_id": "",
+    "details": {
+      "mobile": "+918883543675"
+    },
+    "ip_address": "127.0.0.1",
+    "timestamp": "2026-11-25T12:33:19.767Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 31,
+  "fields": {
+    "action": "CAST_VOTE",
+    "user_type": "employee",
+    "actor_id": "EMP01",
+    "actor_name": "Dinesh",
+    "target_model": "Poll",
+    "target_id": "1",
+    "details": {
+      "anonymous": true
+    },
+    "ip_address": null,
+    "timestamp": "2026-11-25T12:33:50.174Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 32,
+  "fields": {
+    "action": "ADMIN_RESET_VOTE",
+    "user_type": "admin",
+    "actor_id": "1",
+    "actor_name": "admin",
+    "target_model": "Poll",
+    "target_id": "1",
+    "details": {
+      "employee_id": "EMP01",
+      "employee_name": "Dinesh",
+      "poll_title": "Preferred Hybrid Work Model for Q3/Q4"
+    },
+    "ip_address": null,
+    "timestamp": "2026-11-25T12:35:12.809Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 33,
+  "fields": {
+    "action": "EMPLOYEE_LOGIN",
+    "user_type": "employee",
+    "actor_id": "EMP001",
+    "actor_name": "Rahul Sharma",
+    "target_model": "",
+    "target_id": "",
+    "details": {
+      "mobile": "+919876543210"
+    },
+    "ip_address": "127.0.0.1",
+    "timestamp": "2026-11-26T04:36:12.313Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 34,
+  "fields": {
+    "action": "EMPLOYEE_LOGIN",
+    "user_type": "employee",
+    "actor_id": "EMP001",
+    "actor_name": "Rahul Sharma",
+    "target_model": "",
+    "target_id": "",
+    "details": {
+      "mobile": "+919876543210"
+    },
+    "ip_address": "127.0.0.1",
+    "timestamp": "2026-11-26T04:57:09.742Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 35,
+  "fields": {
+    "action": "ADMIN_LOGIN",
+    "user_type": "admin",
+    "actor_id": "1",
+    "actor_name": "admin",
+    "target_model": "",
+    "target_id": "",
+    "details": {
+      "email": "admin@companypulse.com"
+    },
+    "ip_address": "127.0.0.1",
+    "timestamp": "2026-11-26T04:57:27.715Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 36,
+  "fields": {
+    "action": "PUBLISH_POLL",
+    "user_type": "admin",
+    "actor_id": "",
+    "actor_name": "admin",
+    "target_model": "Poll",
+    "target_id": "5",
+    "details": {
+      "title": "Lunch - Team out",
+      "status": "active",
+      "eligible_count": 6
+    },
+    "ip_address": null,
+    "timestamp": "2026-11-26T05:34:50.797Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 37,
+  "fields": {
+    "action": "EMPLOYEE_LOGIN",
+    "user_type": "employee",
+    "actor_id": "EMP001",
+    "actor_name": "Rahul Sharma",
+    "target_model": "",
+    "target_id": "",
+    "details": {
+      "mobile": "+919876543210"
+    },
+    "ip_address": "127.0.0.1",
+    "timestamp": "2026-11-26T05:35:17.985Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 38,
+  "fields": {
+    "action": "CLOSE_POLL",
+    "user_type": "admin",
+    "actor_id": "",
+    "actor_name": "admin",
+    "target_model": "Poll",
+    "target_id": "5",
+    "details": {
+      "title": "Lunch - Team out"
+    },
+    "ip_address": null,
+    "timestamp": "2026-11-26T06:01:49.860Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 39,
+  "fields": {
+    "action": "REOPEN_POLL",
+    "user_type": "admin",
+    "actor_id": "",
+    "actor_name": "admin",
+    "target_model": "Poll",
+    "target_id": "5",
+    "details": {
+      "title": "Lunch - Team out",
+      "new_end": "2026-12-03 06:02:22.811185+00:00"
+    },
+    "ip_address": null,
+    "timestamp": "2026-11-26T06:02:22.811Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 40,
+  "fields": {
+    "action": "CLOSE_POLL",
+    "user_type": "admin",
+    "actor_id": "",
+    "actor_name": "admin",
+    "target_model": "Poll",
+    "target_id": "5",
+    "details": {
+      "title": "Lunch - Team out"
+    },
+    "ip_address": null,
+    "timestamp": "2026-11-26T06:02:33.056Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 41,
+  "fields": {
+    "action": "REOPEN_POLL",
+    "user_type": "admin",
+    "actor_id": "",
+    "actor_name": "admin",
+    "target_model": "Poll",
+    "target_id": "5",
+    "details": {
+      "title": "Lunch - Team out",
+      "new_end": "2026-12-03 06:02:59.844206+00:00"
+    },
+    "ip_address": null,
+    "timestamp": "2026-11-26T06:02:59.886Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 42,
+  "fields": {
+    "action": "PUBLISH_POLL",
+    "user_type": "admin",
+    "actor_id": "",
+    "actor_name": "admin",
+    "target_model": "Poll",
+    "target_id": "6",
+    "details": {
+      "title": "Movie Outing",
+      "status": "active",
+      "eligible_count": 6
+    },
+    "ip_address": null,
+    "timestamp": "2026-11-26T06:07:30.695Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 43,
+  "fields": {
+    "action": "CAST_VOTE",
+    "user_type": "employee",
+    "actor_id": "EMP001",
+    "actor_name": "Rahul Sharma",
+    "target_model": "Poll",
+    "target_id": "6",
+    "details": {
+      "anonymous": false
+    },
+    "ip_address": null,
+    "timestamp": "2026-11-26T06:07:51.026Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 44,
+  "fields": {
+    "action": "EMPLOYEE_LOGIN",
+    "user_type": "employee",
+    "actor_id": "EMP002",
+    "actor_name": "Priya Patel",
+    "target_model": "",
+    "target_id": "",
+    "details": {
+      "mobile": "+919876543211"
+    },
+    "ip_address": "127.0.0.1",
+    "timestamp": "2026-11-26T06:08:36.088Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 45,
+  "fields": {
+    "action": "ADMIN_LOGIN",
+    "user_type": "admin",
+    "actor_id": "1",
+    "actor_name": "admin",
+    "target_model": "",
+    "target_id": "",
+    "details": {
+      "email": "admin@companypulse.com"
+    },
+    "ip_address": "127.0.0.1",
+    "timestamp": "2026-11-26T07:10:12.476Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 46,
+  "fields": {
+    "action": "PUBLISH_POLL",
+    "user_type": "admin",
+    "actor_id": "",
+    "actor_name": "admin",
+    "target_model": "Poll",
+    "target_id": "10",
+    "details": {
+      "title": "Movie Outing",
+      "status": "active",
+      "eligible_count": 6
+    },
+    "ip_address": null,
+    "timestamp": "2026-11-26T07:21:27.096Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 47,
+  "fields": {
+    "action": "CAST_VOTE",
+    "user_type": "employee",
+    "actor_id": "EMP002",
+    "actor_name": "Priya Patel",
+    "target_model": "Poll",
+    "target_id": "10",
+    "details": {
+      "anonymous": false
+    },
+    "ip_address": null,
+    "timestamp": "2026-11-26T07:22:09.824Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 48,
+  "fields": {
+    "action": "EMPLOYEE_LOGIN",
+    "user_type": "employee",
+    "actor_id": "EMP001",
+    "actor_name": "Rahul Sharma",
+    "target_model": "",
+    "target_id": "",
+    "details": {
+      "mobile": "+919876543210"
+    },
+    "ip_address": "127.0.0.1",
+    "timestamp": "2026-11-26T07:22:44.999Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 49,
+  "fields": {
+    "action": "DELETE_POLL",
+    "user_type": "admin",
+    "actor_id": "",
+    "actor_name": "admin",
+    "target_model": "Poll",
+    "target_id": "6",
+    "details": {
+      "title": "Movie Outing",
+      "status": "closed"
+    },
+    "ip_address": null,
+    "timestamp": "2026-11-26T07:23:00.821Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 50,
+  "fields": {
+    "action": "DELETE_POLL",
+    "user_type": "admin",
+    "actor_id": "",
+    "actor_name": "admin",
+    "target_model": "Poll",
+    "target_id": "5",
+    "details": {
+      "title": "Lunch - Team out",
+      "status": "active"
+    },
+    "ip_address": null,
+    "timestamp": "2026-11-26T07:23:04.869Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 51,
+  "fields": {
+    "action": "DELETE_POLL",
+    "user_type": "admin",
+    "actor_id": "",
+    "actor_name": "admin",
+    "target_model": "Poll",
+    "target_id": "4",
+    "details": {
+      "title": "wqdq",
+      "status": "closed"
+    },
+    "ip_address": null,
+    "timestamp": "2026-11-26T07:23:08.436Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 52,
+  "fields": {
+    "action": "DELETE_POLL",
+    "user_type": "admin",
+    "actor_id": "",
+    "actor_name": "admin",
+    "target_model": "Poll",
+    "target_id": "2",
+    "details": {
+      "title": "Annual Team Offsite Destination",
+      "status": "active"
+    },
+    "ip_address": null,
+    "timestamp": "2026-11-26T07:23:11.526Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 53,
+  "fields": {
+    "action": "EMPLOYEE_LOGIN",
+    "user_type": "employee",
+    "actor_id": "EMP001",
+    "actor_name": "Rahul Sharma",
+    "target_model": "",
+    "target_id": "",
+    "details": {
+      "mobile": "+919876543210",
+      "method": "employee_identification"
+    },
+    "ip_address": "127.0.0.1",
+    "timestamp": "2026-11-26T07:47:00.811Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 54,
+  "fields": {
+    "action": "EMPLOYEE_LOGIN",
+    "user_type": "employee",
+    "actor_id": "EMP001",
+    "actor_name": "Rahul Sharma",
+    "target_model": "",
+    "target_id": "",
+    "details": {
+      "mobile": "+919876543210",
+      "method": "employee_identification"
+    },
+    "ip_address": "127.0.0.1",
+    "timestamp": "2026-11-26T07:47:06.902Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 55,
+  "fields": {
+    "action": "EMPLOYEE_LOGIN",
+    "user_type": "employee",
+    "actor_id": "EMP001",
+    "actor_name": "Rahul Sharma",
+    "target_model": "",
+    "target_id": "",
+    "details": {
+      "mobile": "+919876543210",
+      "method": "employee_identification"
+    },
+    "ip_address": "127.0.0.1",
+    "timestamp": "2026-11-26T07:47:19.261Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 56,
+  "fields": {
+    "action": "EMPLOYEE_LOGIN",
+    "user_type": "employee",
+    "actor_id": "EMP001",
+    "actor_name": "Rahul Sharma",
+    "target_model": "",
+    "target_id": "",
+    "details": {
+      "mobile": "+919876543210",
+      "method": "employee_identification"
+    },
+    "ip_address": "127.0.0.1",
+    "timestamp": "2026-11-26T08:02:52.642Z"
+  }
+},
+{
+  "model": "core.auditlog",
+  "pk": 57,
+  "fields": {
+    "action": "EMPLOYEE_LOGIN",
+    "user_type": "employee",
+    "actor_id": "EMP001",
+    "actor_name": "Rahul Sharma",
+    "target_model": "",
+    "target_id": "",
+    "details": {
+      "mobile": "+919876543210",
+      "method": "employee_identification"
+    },
+    "ip_address": "127.0.0.1",
+    "timestamp": "2026-11-26T08:46:39.203Z"
+  }
+}
+]
