@@ -17,6 +17,14 @@ class AdminUser(AbstractUser):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    @property
+    def role(self):
+        return 'admin'
+
+    @role.setter
+    def role(self, value):
+        pass
+
     def __str__(self):
         return f"{self.username} ({self.email})"
 

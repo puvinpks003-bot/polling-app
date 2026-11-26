@@ -203,8 +203,39 @@ export const analyticsApi = {
     const res = await apiClient.get<DashboardAnalytics>('/analytics/dashboard/');
     return res.data;
   },
-  getReportExportUrl: (pollId?: number) => {
-    return pollId ? `${API_BASE}/reports/export/?poll_id=${pollId}` : `${API_BASE}/reports/export/`;
+  getReportExportUrl: (pollId?: number, format: 'excel' | 'pdf' = 'excel') => {
+    const token = localStorage.getItem('cp_access_token') || '';
+    const params = new URLSearchParams();
+    if (pollId) params.append('poll_id', String(pollId));
+    if (format) params.append('format', format);
+    if (token) params.append('token', token);
+    return `${API_BASE}/reports/export/?${params.toString()}`;
+  },
+  downloadReport: async (pollId?: number, format: 'excel' | 'pdf' = 'excel') => {
+    const params: Record<string, any> = { format };
+    if (pollId) params.poll_id = pollId;
+    const res = await apiClient.get('/reports/export/', {
+      params,
+      responseType: 'blob',
+    });
+    const extension = format === 'pdf' ? 'pdf' : 'xlsx';
+    const defaultFilename = pollId
+      ? `Poll_${pollId}_Report.${extension}`
+      : `SG_ONE_System_Report.${extension}`;
+
+    const blob = new Blob([res.data], {
+      type: format === 'pdf'
+        ? 'application/pdf'
+        : 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = defaultFilename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
   },
 };
 

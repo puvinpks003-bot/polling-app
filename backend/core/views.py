@@ -1194,17 +1194,168 @@ class DashboardAnalyticsView(views.APIView):
 
 
 class ExportReportView(views.APIView):
-    permission_classes = [IsAdminRole]
+    permission_classes = [permissions.AllowAny]
+
+    def perform_content_negotiation(self, request, force=False):
+        # Prevent DRF from 404ing on ?format=pdf or ?format=excel
+        from rest_framework.renderers import BaseRenderer
+        class AnyRenderer(BaseRenderer):
+            media_type = '*/*'
+            format = 'any'
+            def render(self, data, accepted_media_type=None, renderer_context=None):
+                return data
+        return (AnyRenderer(), '*/*')
 
     def get(self, request):
-        poll_id = request.query_params.get('poll_id')
-        format_type = request.query_params.get('format', 'excel')
+        user = request.user
+        # Support token authentication from query parameter (for direct browser download links)
+        if not (user and user.is_authenticated):
+            token_str = request.query_params.get('token')
+            if token_str:
+                from rest_framework_simplejwt.tokens import AccessToken
+                try:
+                    validated = AccessToken(token_str)
+                    if validated.get('role') == 'admin':
+                        user_id = validated[settings.SIMPLE_JWT['USER_ID_CLAIM']]
+                        admin = AdminUser.objects.filter(
+                            **{settings.SIMPLE_JWT['USER_ID_FIELD']: user_id},
+                            is_active=True
+                        ).first()
+                        if admin and admin.is_staff:
+                            user = admin
+                            user.role = 'admin'
+                except Exception:
+                    pass
 
-        wb = openpyxl.Workbook()
-        ws = wb.active
+        # Validate administrator authorization
+        if not user or not user.is_authenticated or (
+            getattr(user, 'role', None) != 'admin' and
+            not isinstance(user, AdminUser) and
+            not getattr(user, 'is_staff', False)
+        ):
+            return Response(
+                {'error': 'Administrator authentication credentials required to export reports.'},
+                status=status.HTTP_401_UNAUTHORIZED
+            )
+
+        poll_id = request.query_params.get('poll_id')
+        format_type = request.query_params.get('format', 'excel').lower()
 
         kolkata_tz = zoneinfo.ZoneInfo('Asia/Kolkata')
         now_ist = timezone.now().astimezone(kolkata_tz).strftime('%d-%m-%Y %I:%M:%S %p IST')
+
+        # -----------------------------------------------
+        # PDF FORMAT EXPORT (using ReportLab)
+        # -----------------------------------------------
+        if format_type == 'pdf':
+            try:
+                from reportlab.lib.pagesizes import letter
+                from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+                from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+                from reportlab.lib import colors
+
+                pdf_buffer = io.BytesIO()
+                doc = SimpleDocTemplate(
+                    pdf_buffer,
+                    pagesize=letter,
+                    rightMargin=36,
+                    leftMargin=36,
+                    topMargin=36,
+                    bottomMargin=36
+                )
+                styles = getSampleStyleSheet()
+                elements = []
+
+                title_style = ParagraphStyle(
+                    'TitleStyle',
+                    parent=styles['Heading1'],
+                    fontSize=18,
+                    textColor=colors.HexColor('#0f172a'),
+                    spaceAfter=8
+                )
+                meta_style = ParagraphStyle(
+                    'MetaStyle',
+                    parent=styles['Normal'],
+                    fontSize=10,
+                    textColor=colors.HexColor('#334155'),
+                    spaceAfter=4
+                )
+
+                if poll_id:
+                    try:
+                        poll = Poll.objects.get(id=poll_id)
+                        elements.append(Paragraph(f"Poll Results Report: {poll.title}", title_style))
+                        elements.append(Paragraph(f"<b>Category:</b> {poll.category.name if poll.category else 'N/A'}", meta_style))
+                        elements.append(Paragraph(f"<b>Voting Type:</b> {poll.get_voting_type_display()} | <b>Anonymous:</b> {'Yes' if poll.anonymous_voting else 'No'}", meta_style))
+                        start_ist = poll.start_datetime.astimezone(kolkata_tz).strftime('%d-%m-%Y %I:%M %p IST') if poll.start_datetime else '—'
+                        end_ist = poll.end_datetime.astimezone(kolkata_tz).strftime('%d-%m-%Y %I:%M %p IST') if poll.end_datetime else '—'
+                        elements.append(Paragraph(f"<b>Voting Period:</b> {start_ist} to {end_ist}", meta_style))
+                        elements.append(Paragraph(f"<b>Report Generated:</b> {now_ist}", meta_style))
+                        elements.append(Spacer(1, 14))
+
+                        table_data = [["Option", "Vote Count", "Percentage"]]
+                        total_selections = VoteSelection.objects.filter(poll=poll).count()
+                        for opt in poll.options.all():
+                            cnt = VoteSelection.objects.filter(poll=poll, option=opt).count()
+                            pct = round((cnt / total_selections * 100), 1) if total_selections > 0 else 0.0
+                            table_data.append([opt.text, str(cnt), f"{pct}%"])
+
+                        t = Table(table_data, colWidths=[320, 100, 100])
+                        t.setStyle(TableStyle([
+                            ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#2563eb')),
+                            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                            ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+                            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                            ('FONTSIZE', (0, 0), (-1, 0), 10),
+                            ('BOTTOMPADDING', (0, 0), (-1, 0), 7),
+                            ('BACKGROUND', (0, 1), (-1, -1), colors.HexColor('#f8fafc')),
+                            ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor('#cbd5e1')),
+                            ('FONTSIZE', (0, 1), (-1, -1), 9),
+                        ]))
+                        elements.append(t)
+                    except Poll.DoesNotExist:
+                        return Response({'error': 'Poll not found'}, status=status.HTTP_404_NOT_FOUND)
+                else:
+                    elements.append(Paragraph("SG ONE - System-Wide Polling Overview", title_style))
+                    elements.append(Paragraph(f"<b>Report Generated:</b> {now_ist}", meta_style))
+                    elements.append(Spacer(1, 14))
+
+                    table_data = [
+                        ["Metric", "Value"],
+                        ["Total Registered Employees", str(Employee.objects.count())],
+                        ["Active Employees", str(Employee.objects.filter(is_active=True).count())],
+                        ["Total Polls Created", str(Poll.objects.count())],
+                        ["Active Polls", str(Poll.objects.filter(status='active').count())],
+                        ["Total Votes Recorded", str(Vote.objects.count() + AnonymousParticipation.objects.count())]
+                    ]
+                    t = Table(table_data, colWidths=[320, 200])
+                    t.setStyle(TableStyle([
+                        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#2563eb')),
+                        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+                        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+                        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                        ('FONTSIZE', (0, 0), (-1, 0), 10),
+                        ('BOTTOMPADDING', (0, 0), (-1, 0), 7),
+                        ('BACKGROUND', (0, 1), (-1, -1), colors.HexColor('#f8fafc')),
+                        ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor('#cbd5e1')),
+                        ('FONTSIZE', (0, 1), (-1, -1), 9),
+                    ]))
+                    elements.append(t)
+
+                doc.build(elements)
+                pdf_buffer.seek(0)
+                response = HttpResponse(pdf_buffer.getvalue(), content_type='application/pdf')
+                filename = f"Poll_{poll_id}_Results.pdf" if poll_id else "SG_ONE_System_Report.pdf"
+                response['Content-Disposition'] = f'attachment; filename="{filename}"'
+                return response
+            except Exception as e:
+                return Response({'error': f'Failed to generate PDF: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        # -----------------------------------------------
+        # EXCEL FORMAT EXPORT (using openpyxl)
+        # -----------------------------------------------
+        wb = openpyxl.Workbook()
+        ws = wb.active
 
         if poll_id:
             try:

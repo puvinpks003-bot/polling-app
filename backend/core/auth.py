@@ -136,10 +136,11 @@ class CompanyPulseJWTAuthentication(JWTAuthentication):
 class IsAdminRole(permissions.BasePermission):
     """Allows access only to authenticated Admin users."""
     def has_permission(self, request, view):
+        user = request.user
         return bool(
-            request.user and
-            request.user.is_authenticated and
-            getattr(request.user, 'role', None) == 'admin'
+            user and
+            user.is_authenticated and
+            (getattr(user, 'role', None) == 'admin' or isinstance(user, AdminUser) or getattr(user, 'is_staff', False))
         )
 
 

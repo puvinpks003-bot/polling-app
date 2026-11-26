@@ -6,7 +6,7 @@ import { Poll, PollResults } from '../../types';
 import { Card, Badge, Button, Modal, Skeleton } from '../../components/ui';
 import {
   BarChart3, Award, Users, CheckCircle2,
-  FileSpreadsheet, ArrowLeft, Lock, Star, ChevronDown,
+  FileSpreadsheet, FileText, Loader2, ArrowLeft, Lock, Star, ChevronDown,
   RotateCcw, Search, AlertCircle
 } from 'lucide-react';
 import {
@@ -31,6 +31,20 @@ export const PollResultsPage: React.FC = () => {
   const [resetSuccessMsg, setResetSuccessMsg] = useState<string | null>(null);
   const [resetErrorMsg, setResetErrorMsg] = useState<string | null>(null);
   const [voterSearch, setVoterSearch] = useState('');
+  const [exportingFormat, setExportingFormat] = useState<string | null>(null);
+
+  const handleExport = async (format: 'excel' | 'pdf') => {
+    if (!selectedPollId) return;
+    setExportingFormat(format);
+    try {
+      await analyticsApi.downloadReport(selectedPollId, format);
+    } catch (err: any) {
+      console.error('Export failed:', err);
+      alert(err.response?.data?.error || `Failed to export ${format.toUpperCase()} report.`);
+    } finally {
+      setExportingFormat(null);
+    }
+  };
 
   const COLORS = ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899', '#06b6d4', '#6366f1'];
 
@@ -101,17 +115,34 @@ export const PollResultsPage: React.FC = () => {
           <h1 className="text-2xl font-black tracking-tight text-white">Voting Results & Analytics</h1>
           <p className="text-sm text-slate-400">Detailed option distribution, voter choices, and participation audits</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
           {selectedPollId && (
-            <a
-              href={analyticsApi.getReportExportUrl(selectedPollId)}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center justify-center px-3.5 py-2 rounded-lg text-xs font-semibold border border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-200 gap-1.5 transition-colors"
-            >
-              <FileSpreadsheet className="w-4 h-4 text-emerald-400" />
-              <span>Export Excel</span>
-            </a>
+            <>
+              <button
+                onClick={() => handleExport('excel')}
+                disabled={exportingFormat === 'excel'}
+                className="inline-flex items-center justify-center px-3.5 py-2 rounded-lg text-xs font-semibold border border-slate-700 bg-slate-800 hover:bg-slate-700 disabled:opacity-60 text-slate-200 gap-1.5 transition-colors cursor-pointer"
+              >
+                {exportingFormat === 'excel' ? (
+                  <Loader2 className="w-4 h-4 animate-spin text-emerald-400" />
+                ) : (
+                  <FileSpreadsheet className="w-4 h-4 text-emerald-400" />
+                )}
+                <span>Export Excel</span>
+              </button>
+              <button
+                onClick={() => handleExport('pdf')}
+                disabled={exportingFormat === 'pdf'}
+                className="inline-flex items-center justify-center px-3.5 py-2 rounded-lg text-xs font-semibold border border-slate-700 bg-slate-800 hover:bg-slate-700 disabled:opacity-60 text-slate-200 gap-1.5 transition-colors cursor-pointer"
+              >
+                {exportingFormat === 'pdf' ? (
+                  <Loader2 className="w-4 h-4 animate-spin text-rose-400" />
+                ) : (
+                  <FileText className="w-4 h-4 text-rose-400" />
+                )}
+                <span>Export PDF</span>
+              </button>
+            </>
           )}
         </div>
       </div>
