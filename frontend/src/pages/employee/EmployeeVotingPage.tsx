@@ -43,10 +43,12 @@ export const EmployeeVotingPage: React.FC = () => {
   const isClosed = poll ? (poll.status === 'closed' || isTimeExpired) : false;
 
   const canViewResults = Boolean(
-    poll?.can_view_results ||
-    (poll?.results_visibility === 'always') ||
-    (poll?.results_visibility === 'after_closing' && isClosed) ||
-    (poll?.results_visibility === 'after_voting' && (hasVoted || isClosed))
+    poll?.results_visibility !== 'admin_only' && (
+      poll?.can_view_results ||
+      (poll?.results_visibility === 'always') ||
+      (poll?.results_visibility === 'after_closing' && isClosed) ||
+      (poll?.results_visibility === 'after_voting' && (hasVoted || isClosed))
+    )
   );
 
   // Auto-close confirmation modal if time expires while modal is open

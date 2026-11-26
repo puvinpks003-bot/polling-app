@@ -184,8 +184,8 @@ export const LoginPage: React.FC = () => {
                   </div>
 
                   <Input
-                    label="Full Name (as registered)"
-                    placeholder="e.g. Rahul Sharma"
+                    label="Full Name or Employee ID"
+                    placeholder="e.g. Dinesh or EMP01"
                     value={employeeName}
                     onChange={(e) => setEmployeeName(e.target.value)}
                     required
@@ -193,10 +193,10 @@ export const LoginPage: React.FC = () => {
 
                   <Input
                     label="Registered Mobile Number"
-                    placeholder="e.g. +919876543210"
+                    placeholder="e.g. +918883543675 or 8883543675"
                     value={employeeMobile}
                     onChange={(e) => setEmployeeMobile(e.target.value)}
-                    helperText="Include country code (e.g. +91 for India)"
+                    helperText="10-digit mobile number or with country code"
                     required
                   />
 
@@ -205,10 +205,18 @@ export const LoginPage: React.FC = () => {
                     <ArrowRight className="w-4 h-4 ml-1" />
                   </Button>
 
-                  <div className="p-3 bg-slate-950/60 rounded-lg border border-slate-800 text-[11px] text-slate-400 space-y-1">
-                    <p className="font-semibold text-slate-300">Default Seeded Employee for Testing:</p>
-                    <p>Name: <span className="text-blue-400 font-mono">Rahul Sharma</span></p>
-                    <p>Mobile: <span className="text-blue-400 font-mono">+919876543210</span></p>
+                  <div className="p-3 bg-slate-950/60 rounded-lg border border-slate-800 text-[11px] text-slate-400 space-y-1.5">
+                    <p className="font-semibold text-slate-300">Registered Employee Login Examples:</p>
+                    <div className="grid grid-cols-2 gap-2 text-[10px]">
+                      <div className="p-1.5 rounded bg-slate-900 border border-slate-800">
+                        <p className="text-slate-400">Name / ID: <span className="text-blue-400 font-mono font-medium">Dinesh (EMP01)</span></p>
+                        <p className="text-slate-400">Mobile: <span className="text-blue-400 font-mono font-medium">8883543675</span></p>
+                      </div>
+                      <div className="p-1.5 rounded bg-slate-900 border border-slate-800">
+                        <p className="text-slate-400">Name / ID: <span className="text-blue-400 font-mono font-medium">Rahul (EMP001)</span></p>
+                        <p className="text-slate-400">Mobile: <span className="text-blue-400 font-mono font-medium">9876543210</span></p>
+                      </div>
+                    </div>
                   </div>
                 </form>
               ) : (

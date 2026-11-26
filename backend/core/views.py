@@ -94,13 +94,26 @@ class EmployeeRequestOTPView(views.APIView):
         norm_name = normalize_name(full_name)
         norm_mobile = normalize_mobile(mobile_number)
 
-        # Find employee
+        # Find employee by Full Name, Employee ID, or Email + Mobile match
         employee = None
         candidates = Employee.objects.filter(is_active=True)
         for emp in candidates:
             emp_norm_name = normalize_name(emp.full_name)
+            emp_norm_id = emp.employee_id.strip().lower() if emp.employee_id else ''
+            emp_norm_email = emp.email.strip().lower() if emp.email else ''
             emp_norm_mobile = normalize_mobile(emp.mobile_number)
-            if emp_norm_name == norm_name and (emp_norm_mobile == norm_mobile or emp_norm_mobile.endswith(norm_mobile[-10:])):
+
+            name_matches = (
+                emp_norm_name == norm_name
+                or emp_norm_id == norm_name
+                or emp_norm_email == norm_name
+            )
+            mobile_matches = (
+                emp_norm_mobile == norm_mobile
+                or (len(norm_mobile) >= 10 and emp_norm_mobile.endswith(norm_mobile[-10:]))
+            )
+
+            if name_matches and mobile_matches:
                 employee = emp
                 break
 
