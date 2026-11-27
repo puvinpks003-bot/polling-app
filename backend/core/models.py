@@ -75,6 +75,13 @@ class Employee(models.Model):
     def __str__(self):
         return f"{self.full_name} ({self.employee_id}) - {self.mobile_number}"
 
+    def save(self, *args, **kwargs):
+        if self.email is not None and not str(self.email).strip():
+            self.email = None
+        elif self.email:
+            self.email = str(self.email).strip()
+        super().save(*args, **kwargs)
+
     @property
     def is_authenticated(self):
         return True

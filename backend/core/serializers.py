@@ -36,6 +36,7 @@ class DepartmentSerializer(serializers.ModelSerializer):
 class EmployeeSerializer(serializers.ModelSerializer):
     department_name = serializers.CharField(source='department.name', read_only=True)
     joining_date = serializers.DateField(required=False)
+    email = serializers.EmailField(required=False, allow_null=True, allow_blank=True)
 
     class Meta:
         model = Employee
@@ -44,6 +45,17 @@ class EmployeeSerializer(serializers.ModelSerializer):
             'email', 'department', 'department_name', 'designation',
             'joining_date', 'is_active', 'created_at', 'updated_at'
         ]
+
+    def validate_email(self, value):
+        if not value or not str(value).strip():
+            return None
+        val = value.strip().lower()
+        qs = Employee.objects.filter(email__iexact=val)
+        if self.instance:
+            qs = qs.exclude(id=self.instance.id)
+        if qs.exists():
+            raise serializers.ValidationError("An employee with this email address already exists.")
+        return val
 
     def validate_employee_id(self, value):
         val = value.strip().upper()
