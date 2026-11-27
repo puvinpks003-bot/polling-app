@@ -70,10 +70,8 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # ==============================================================================
 # Database Configuration & Strict Local vs Production Separation
 # ==============================================================================
-# Production Neon PostgreSQL database URL (Used exclusively on server deployment)
-DEFAULT_PROD_DATABASE_URL = (
-    'postgresql://neondb_owner:npg_5JvQVPeBkgh4@ep-little-butterfly-bdxutz4q-pooler.c-8.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require'
-)
+# Securely load DATABASE_URL from environment variables (NEVER hardcoded in source)
+DATABASE_URL = os.getenv('DATABASE_URL')
 
 # Deployment indicator:
 # - VERCEL is automatically set by the Vercel hosting platform
@@ -83,10 +81,10 @@ IS_PRODUCTION_DEPLOYMENT = bool(
     os.getenv('VERCEL')
     or os.getenv('PRODUCTION', '').lower() in ('true', '1')
     or os.getenv('ENVIRONMENT', '').lower() == 'production'
-    or os.getenv('USE_PROD_DB', '').lower() in ('true', '1')
+    or (os.getenv('USE_PROD_DB', '').lower() in ('true', '1') and DATABASE_URL)
 )
 
-if 'test' in sys.argv or os.getenv('FORCE_SQLITE') or not IS_PRODUCTION_DEPLOYMENT:
+if 'test' in sys.argv or os.getenv('FORCE_SQLITE') or not IS_PRODUCTION_DEPLOYMENT or not DATABASE_URL:
     # --------------------------------------------------------------------------
     # LOCAL DEVELOPMENT: Isolated local SQLite database (backend/db.sqlite3)
     # Guaranteed to NEVER touch or disturb the production database!
@@ -100,9 +98,8 @@ if 'test' in sys.argv or os.getenv('FORCE_SQLITE') or not IS_PRODUCTION_DEPLOYME
     print("[Database Configuration] Mode: LOCAL (SQLite -> backend/db.sqlite3)")
 else:
     # --------------------------------------------------------------------------
-    # PRODUCTION DEPLOYMENT: Cloud PostgreSQL (Neon DB)
+    # PRODUCTION DEPLOYMENT: Cloud PostgreSQL (from secure DATABASE_URL env var)
     # --------------------------------------------------------------------------
-    DATABASE_URL = os.getenv('DATABASE_URL') or os.getenv('PROD_DATABASE_URL') or DEFAULT_PROD_DATABASE_URL
     try:
         import dj_database_url
         DATABASES = {
@@ -127,7 +124,7 @@ else:
                 'OPTIONS': {'sslmode': 'require'} if 'sslmode=require' in DATABASE_URL else {},
             }
         }
-    print("[Database Configuration] Mode: PRODUCTION (Neon Cloud PostgreSQL)")
+    print("[Database Configuration] Mode: PRODUCTION (PostgreSQL via secure DATABASE_URL)")
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
