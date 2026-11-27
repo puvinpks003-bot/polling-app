@@ -37,6 +37,7 @@ AUTH_USER_MODEL = 'core.AdminUser'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'django.middleware.gzip.GZipMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -95,6 +96,7 @@ elif os.getenv('DATABASE_URL'):
                 'PASSWORD': u.password,
                 'HOST': u.hostname,
                 'PORT': u.port or 5432,
+                'CONN_MAX_AGE': 600,
                 'OPTIONS': {'sslmode': 'require'} if 'sslmode=require' in DATABASE_URL else {},
             }
         }

@@ -18,40 +18,39 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [user, setUser] = useState<AdminUser | Employee | null>(null);
-  const [role, setRole] = useState<UserRole | null>(null);
-  const [token, setToken] = useState<string | null>(localStorage.getItem('cp_access_token'));
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [token, setToken] = useState<string | null>(() => localStorage.getItem('cp_access_token'));
+  const [role, setRole] = useState<UserRole | null>(() => (localStorage.getItem('cp_user_role') as UserRole) || null);
+  const [user, setUser] = useState<AdminUser | Employee | null>(() => {
+    const raw = localStorage.getItem('cp_user_data');
+    if (raw) {
+      try {
+        return JSON.parse(raw);
+      } catch {
+        return null;
+      }
+    }
+    return null;
+  });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    const initializeAuth = async () => {
+    const syncSessionWithServer = async () => {
       const storedToken = localStorage.getItem('cp_access_token');
-      const storedRole = localStorage.getItem('cp_user_role') as UserRole | null;
-      const storedUser = localStorage.getItem('cp_user_data');
+      if (!storedToken) return;
 
-      if (storedToken && storedRole) {
-        setToken(storedToken);
-        setRole(storedRole);
-        if (storedUser) {
-          try {
-            setUser(JSON.parse(storedUser));
-          } catch {
-            // fallback
-          }
+      try {
+        const res = await authApi.getMe();
+        if (res.role === 'admin') {
+          setUser(res.user);
+          setRole('admin');
+          localStorage.setItem('cp_user_data', JSON.stringify(res.user));
+        } else if (res.role === 'employee') {
+          setUser(res.employee);
+          setRole('employee');
+          localStorage.setItem('cp_user_data', JSON.stringify(res.employee));
         }
-        try {
-          const res = await authApi.getMe();
-          if (res.role === 'admin') {
-            setUser(res.user);
-            setRole('admin');
-            localStorage.setItem('cp_user_data', JSON.stringify(res.user));
-          } else if (res.role === 'employee') {
-            setUser(res.employee);
-            setRole('employee');
-            localStorage.setItem('cp_user_data', JSON.stringify(res.employee));
-          }
-        } catch {
-          // Token expired or invalid
+      } catch (err: any) {
+        if (err.response?.status === 401) {
           localStorage.removeItem('cp_access_token');
           localStorage.removeItem('cp_refresh_token');
           localStorage.removeItem('cp_user_role');
@@ -61,10 +60,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           setToken(null);
         }
       }
-      setIsLoading(false);
     };
 
-    initializeAuth();
+    syncSessionWithServer();
   }, []);
 
   const loginAdmin = async (credentials: { username: string; password: string }) => {
