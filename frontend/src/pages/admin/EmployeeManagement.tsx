@@ -129,6 +129,7 @@ export const EmployeeManagement: React.FC = () => {
     try {
       const payload: any = {
         ...formData,
+        email: formData.email && formData.email.trim() ? formData.email.trim() : null,
         department: formData.department ? Number(formData.department) : null,
       };
 
@@ -143,6 +144,7 @@ export const EmployeeManagement: React.FC = () => {
     } catch (err: any) {
       const msg = err.response?.data?.employee_id?.[0] ||
         err.response?.data?.mobile_number?.[0] ||
+        err.response?.data?.email?.[0] ||
         err.response?.data?.error ||
         'Failed to save employee. Please check inputs.';
       setFormError(msg);
