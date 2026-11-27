@@ -7,7 +7,7 @@ import { Card, Badge, Button, Modal, Skeleton } from '../../components/ui';
 import {
   BarChart3, Award, Users, CheckCircle2,
   FileSpreadsheet, FileText, Loader2, ArrowLeft, Lock, Star, ChevronDown,
-  RotateCcw, Search, AlertCircle
+  RotateCcw, Search, AlertCircle, Plus
 } from 'lucide-react';
 import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer,
@@ -62,14 +62,29 @@ export const PollResultsPage: React.FC = () => {
   useEffect(() => {
     pollApi.list().then(list => {
       setPolls(list);
-      if (!selectedPollId && list.length > 0) {
-        setSelectedPollId(list[0].id);
+      if (pollIdParam) {
+        const found = list.find(p => p.id === Number(pollIdParam));
+        if (found) {
+          setSelectedPollId(found.id);
+          return;
+        }
       }
+      if (list.length > 0) {
+        setSelectedPollId(list[0].id);
+      } else {
+        setLoading(false);
+      }
+    }).catch(err => {
+      console.error(err);
+      setLoading(false);
     });
-  }, []);
+  }, [pollIdParam]);
 
   useEffect(() => {
-    if (!selectedPollId) return;
+    if (!selectedPollId) {
+      setLoading(false);
+      return;
+    }
     setResetSuccessMsg(null);
     fetchResults(selectedPollId);
   }, [selectedPollId]);
@@ -163,42 +178,68 @@ export const PollResultsPage: React.FC = () => {
         </div>
       )}
 
-      {/* Poll Selector Dropdown */}
-      <Card className="p-4">
-        <div className="flex flex-col sm:flex-row items-center gap-3">
-          <label className="text-xs font-semibold uppercase tracking-wider text-slate-400 whitespace-nowrap">
-            Select Poll to Analyze:
-          </label>
-          <select
-            value={selectedPollId || ''}
-            onChange={(e) => setSelectedPollId(Number(e.target.value))}
-            className="w-full sm:flex-1 px-3.5 py-2 bg-slate-950/80 border border-slate-800 rounded-lg text-sm text-slate-100 font-medium focus:outline-none focus:border-blue-500"
-          >
-            {polls.map((p) => (
-              <option key={p.id} value={p.id}>
-                {p.title} ({p.status.toUpperCase()})
-              </option>
-            ))}
-          </select>
-        </div>
-      </Card>
-
-      {/* Main Results View */}
-      {loading ? (
-        <div className="space-y-4">
-          <Skeleton className="h-28 w-full" />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Skeleton className="h-64 w-full" />
-            <Skeleton className="h-64 w-full" />
+      {/* Empty State: No Polls In System */}
+      {!loading && polls.length === 0 ? (
+        <Card className="p-12 text-center border-slate-800">
+          <div className="w-16 h-16 rounded-2xl bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mx-auto mb-4">
+            <BarChart3 className="w-8 h-8" />
           </div>
-        </div>
-      ) : !results ? (
-        <Card className="p-12 text-center text-slate-400">
-          <BarChart3 className="w-12 h-12 mx-auto text-slate-600 mb-3" />
-          <p className="text-base font-semibold text-slate-300">No results available</p>
-          <p className="text-xs text-slate-500 mt-1">This poll may not have received any votes yet.</p>
+          <h2 className="text-lg font-bold text-white">No Polls Available Yet</h2>
+          <p className="text-sm text-slate-400 mt-1 max-w-md mx-auto">
+            You haven't created any polls yet. Once you launch a poll and employees submit their ballots, you will be able to explore real-time voting results, turnout metrics, and option analytics right here.
+          </p>
+          <div className="mt-6 flex items-center justify-center gap-3">
+            <Button onClick={() => navigate('/admin/polls/create')} className="gap-2">
+              <Plus className="w-4 h-4" />
+              <span>Create Your First Poll</span>
+            </Button>
+          </div>
         </Card>
       ) : (
+        <>
+          {/* Poll Selector Dropdown */}
+          <Card className="p-4">
+            <div className="flex flex-col sm:flex-row items-center gap-3">
+              <label className="text-xs font-semibold uppercase tracking-wider text-slate-400 whitespace-nowrap">
+                Select Poll to Analyze:
+              </label>
+              <select
+                value={selectedPollId || ''}
+                onChange={(e) => setSelectedPollId(e.target.value ? Number(e.target.value) : null)}
+                className="w-full sm:flex-1 px-3.5 py-2 bg-slate-950/80 border border-slate-800 rounded-lg text-sm text-slate-100 font-medium focus:outline-none focus:border-blue-500"
+              >
+                <option value="">-- Choose a Poll to View Results --</option>
+                {polls.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.title} ({p.status.toUpperCase()})
+                  </option>
+                ))}
+              </select>
+            </div>
+          </Card>
+
+          {/* Main Results View */}
+          {loading ? (
+            <div className="space-y-4">
+              <Skeleton className="h-28 w-full" />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <Skeleton className="h-64 w-full" />
+                <Skeleton className="h-64 w-full" />
+              </div>
+            </div>
+          ) : !selectedPollId ? (
+            <Card className="p-12 text-center text-slate-400 border-slate-800">
+              <BarChart3 className="w-12 h-12 mx-auto text-slate-600 mb-3" />
+              <p className="text-base font-semibold text-slate-300">Select a Poll to Analyze</p>
+              <p className="text-xs text-slate-500 mt-1">Please select an active or closed poll from the dropdown above to view results.</p>
+            </Card>
+          ) : !results ? (
+            <Card className="p-12 text-center text-slate-400">
+              <BarChart3 className="w-12 h-12 mx-auto text-slate-600 mb-3" />
+              <p className="text-base font-semibold text-slate-300">No results available</p>
+              <p className="text-xs text-slate-500 mt-1">This poll may not have received any votes yet.</p>
+            </Card>
+          ) : (
         <div className="space-y-6">
           {/* Header Summary Banner */}
           <Card className="p-6 bg-gradient-to-r from-slate-900 via-slate-900 to-blue-950/40 border-slate-800">
@@ -439,6 +480,8 @@ export const PollResultsPage: React.FC = () => {
           )}
         </div>
       )}
+    </>
+  )}
 
       {/* RE-SUBMIT CONFIRMATION MODAL */}
       <Modal
