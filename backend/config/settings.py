@@ -67,6 +67,8 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database configuration: support DATABASE_URL, PostgreSQL with SQLite fallback
+DEFAULT_PROD_DATABASE_URL = 'postgresql://neondb_owner:npg_5JvQVPeBkgh4@ep-little-butterfly-bdxutz4q-pooler.c-8.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require'
+
 if 'test' in sys.argv or os.getenv('FORCE_SQLITE'):
     DATABASES = {
         'default': {
@@ -74,8 +76,8 @@ if 'test' in sys.argv or os.getenv('FORCE_SQLITE'):
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
-elif os.getenv('DATABASE_URL'):
-    DATABASE_URL = os.getenv('DATABASE_URL')
+elif os.getenv('DATABASE_URL') or os.getenv('VERCEL'):
+    DATABASE_URL = os.getenv('DATABASE_URL') or DEFAULT_PROD_DATABASE_URL
     try:
         import dj_database_url
         DATABASES = {

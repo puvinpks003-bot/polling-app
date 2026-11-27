@@ -103,9 +103,17 @@ class EmployeeRequestOTPView(views.APIView):
             emp_norm_email = emp.email.strip().lower() if emp.email else ''
             emp_norm_mobile = normalize_mobile(emp.mobile_number)
 
+            # Check exact match or typo-tolerant transposition match (e.g. SGCS025 for SGSC025)
+            id_transposed = (
+                bool(emp_norm_id and norm_name and len(emp_norm_id) == len(norm_name)
+                     and sorted(emp_norm_id) == sorted(norm_name)
+                     and sum(1 for a, b in zip(emp_norm_id, norm_name) if a != b) <= 2)
+            )
+
             name_matches = (
                 emp_norm_name == norm_name
                 or emp_norm_id == norm_name
+                or id_transposed
                 or emp_norm_email == norm_name
             )
             mobile_matches = (
