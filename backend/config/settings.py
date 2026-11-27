@@ -1,4 +1,5 @@
 import os
+import sys
 from pathlib import Path
 from datetime import timedelta
 from dotenv import load_dotenv
@@ -65,7 +66,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database configuration: support DATABASE_URL, PostgreSQL with SQLite fallback
-if os.getenv('FORCE_SQLITE'):
+if 'test' in sys.argv or os.getenv('FORCE_SQLITE'):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',

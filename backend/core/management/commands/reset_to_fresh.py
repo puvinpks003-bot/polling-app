@@ -53,6 +53,8 @@ class Command(BaseCommand):
             ('Sales', 'SLS', 'Business Development & Enterprise Sales'),
             ('Operations', 'OPS', 'Facilities & Business Operations'),
         ]
+        base_dept_names = [d[0] for d in depts]
+        Department.objects.exclude(name__in=base_dept_names).delete()
         for name, code, desc in depts:
             Department.objects.get_or_create(
                 name=name,
@@ -67,6 +69,8 @@ class Command(BaseCommand):
             ('Company Culture', 'Team events, feedback, values, and celebrations', '#8b5cf6'),
             ('Product & Strategy', 'Internal toolings, roadmap priorities, and suggestions', '#f59e0b'),
         ]
+        base_cat_names = [c[0] for c in categories]
+        PollCategory.objects.exclude(name__in=base_cat_names).delete()
         for name, desc, color in categories:
             PollCategory.objects.get_or_create(
                 name=name,
