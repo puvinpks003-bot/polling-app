@@ -79,7 +79,7 @@ export const EmployeeManagement: React.FC = () => {
     setFormData({
       employee_id: `EMP${Math.floor(100 + Math.random() * 900)}`,
       full_name: '',
-      mobile_number: '+91',
+      mobile_number: '',
       email: '',
       department: departments[0]?.id ? String(departments[0].id) : '',
       designation: '',
@@ -92,10 +92,12 @@ export const EmployeeManagement: React.FC = () => {
 
   const handleOpenEdit = (emp: Employee) => {
     setSelectedEmployee(emp);
+    const rawMob = (emp.mobile_number || '').trim();
+    const cleanMobile = rawMob.startsWith('+91') ? rawMob.slice(3) : rawMob.replace(/^\+/, '');
     setFormData({
       employee_id: emp.employee_id,
       full_name: emp.full_name,
-      mobile_number: emp.mobile_number,
+      mobile_number: cleanMobile,
       email: emp.email || '',
       department: emp.department ? String(emp.department) : '',
       designation: emp.designation || '',
@@ -124,13 +126,68 @@ export const EmployeeManagement: React.FC = () => {
   const handleSaveEmployee = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormError(null);
+
+    // 1. Mandatory Validations
+    if (!formData.employee_id.trim()) {
+      setFormError('Employee ID is required.');
+      return;
+    }
+    if (!formData.full_name.trim()) {
+      setFormError('Full Name is required.');
+      return;
+    }
+
+    // 2. Mobile Number Validation (Strict 10 digits starting with 6, 7, 8, or 9)
+    const mobileDigits = formData.mobile_number.replace(/\D/g, '');
+    if (!mobileDigits) {
+      setFormError('Mobile Number is required.');
+      return;
+    }
+    if (!/^[6-9]\d{9}$/.test(mobileDigits)) {
+      setFormError('Please enter a valid 10-digit mobile number (starts with 6, 7, 8, or 9).');
+      return;
+    }
+
+    // 3. Department Validation
+    if (!formData.department) {
+      setFormError('Department is required. Please select or create a department.');
+      return;
+    }
+
+    // 4. Designation Validation
+    if (!formData.designation.trim()) {
+      setFormError('Designation is required.');
+      return;
+    }
+
+    // 5. Gmail / Email Validation (Optional, but if filled must be valid)
+    const trimmedEmail = formData.email.trim();
+    if (trimmedEmail) {
+      const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!emailRegex.test(trimmedEmail)) {
+        setFormError('Please enter a valid Gmail / Email address (e.g. name@gmail.com).');
+        return;
+      }
+      if (trimmedEmail.toLowerCase().endsWith('@gmail.com')) {
+        const username = trimmedEmail.slice(0, -10);
+        if (!/^[a-zA-Z0-9.]+$/.test(username) || username.includes('..') || username.length < 3) {
+          setFormError('Please enter a valid Gmail address format.');
+          return;
+        }
+      }
+    }
+
     setActionLoading(true);
 
     try {
       const payload: any = {
         ...formData,
-        email: formData.email && formData.email.trim() ? formData.email.trim() : null,
-        department: formData.department ? Number(formData.department) : null,
+        employee_id: formData.employee_id.trim().toUpperCase(),
+        full_name: formData.full_name.trim(),
+        mobile_number: `+91${mobileDigits}`,
+        designation: formData.designation.trim(),
+        email: trimmedEmail || null,
+        department: Number(formData.department),
       };
 
       if (isEditModalOpen && selectedEmployee) {
@@ -145,6 +202,8 @@ export const EmployeeManagement: React.FC = () => {
       const msg = err.response?.data?.employee_id?.[0] ||
         err.response?.data?.mobile_number?.[0] ||
         err.response?.data?.email?.[0] ||
+        err.response?.data?.department?.[0] ||
+        err.response?.data?.designation?.[0] ||
         err.response?.data?.error ||
         'Failed to save employee. Please check inputs.';
       setFormError(msg);
@@ -374,14 +433,15 @@ export const EmployeeManagement: React.FC = () => {
 
           <div className="grid grid-cols-2 gap-3">
             <Input
-              label="Employee ID (Unique)"
+              label="Employee ID *"
+              placeholder="e.g. SGSC025"
               value={formData.employee_id}
               onChange={(e) => setFormData({ ...formData, employee_id: e.target.value })}
               required
               disabled={isEditModalOpen}
             />
             <Input
-              label="Full Name"
+              label="Full Name *"
               placeholder="e.g. Rahul Sharma"
               value={formData.full_name}
               onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
@@ -391,43 +451,24 @@ export const EmployeeManagement: React.FC = () => {
 
           <div className="grid grid-cols-2 gap-3">
             <Input
-              label="Mobile Number (E.164)"
-              placeholder="+919876543210"
+              label="Mobile Number *"
+              placeholder="e.g. 9876543210 (10 digits)"
               value={formData.mobile_number}
               onChange={(e) => {
-                const raw = e.target.value;
-                if (!raw || raw === '+' || raw === '+9') {
-                  setFormData({ ...formData, mobile_number: '+91' });
-                  return;
-                }
-                if (!raw.startsWith('+')) {
-                  const digits = raw.replace(/\D/g, '');
-                  if (digits.startsWith('91') && digits.length > 10) {
-                    setFormData({ ...formData, mobile_number: `+${digits}` });
-                  } else {
-                    setFormData({ ...formData, mobile_number: `+91${digits}` });
-                  }
-                  return;
-                }
-                const prefix = raw.startsWith('+91') ? '+91' : '+';
-                const rest = raw.slice(prefix.length).replace(/\D/g, '');
-                setFormData({ ...formData, mobile_number: `${prefix}${rest}` });
+                const digits = e.target.value.replace(/\D/g, '').slice(0, 10);
+                setFormData({ ...formData, mobile_number: digits });
               }}
-              onFocus={(e) => {
-                if (e.target.value === '+91') {
-                  const len = e.target.value.length;
-                  e.target.setSelectionRange(len, len);
-                }
-              }}
-              helperText="Used for OTP verification (+91 pre-filled)"
+              maxLength={10}
+              helperText="10-digit mobile number (starts with 6, 7, 8, or 9)"
               required
             />
             <Input
-              label="Email Address (Optional)"
+              label="Email / Gmail Address (Optional)"
               type="email"
-              placeholder="rahul@company.com"
+              placeholder="e.g. rahul@gmail.com"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              helperText="Optional. Must be a valid email or Gmail"
             />
           </div>
 
@@ -435,11 +476,8 @@ export const EmployeeManagement: React.FC = () => {
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
                 <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300">
-                  Department
+                  Department <span className="text-red-400">*</span>
                 </label>
-                <span className="text-[11px] text-slate-500 font-mono">
-                  Search or create new
-                </span>
               </div>
               <DepartmentCombobox
                 departments={departments}
@@ -449,16 +487,17 @@ export const EmployeeManagement: React.FC = () => {
               />
             </div>
             <Input
-              label="Designation"
-              placeholder="e.g. Senior Software Engineer"
+              label="Designation *"
+              placeholder="e.g. Design Engineer"
               value={formData.designation}
               onChange={(e) => setFormData({ ...formData, designation: e.target.value })}
+              required
             />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <Input
-              label="Joining Date"
+              label="Joining Date (Optional)"
               type="date"
               value={formData.joining_date}
               onChange={(e) => setFormData({ ...formData, joining_date: e.target.value })}

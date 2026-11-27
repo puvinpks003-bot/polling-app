@@ -23,30 +23,15 @@ export const LoginPage: React.FC = () => {
 
   // Employee form
   const [employeeName, setEmployeeName] = useState('');
-  const [employeeMobile, setEmployeeMobile] = useState('+91');
+  const [employeeMobile, setEmployeeMobile] = useState('');
   const [otpStep, setOtpStep] = useState(false);
   const [otpValue, setOtpValue] = useState('');
   const [devOtp, setDevOtp] = useState<string | null>(null);
   const [resendCooldown, setResendCooldown] = useState(0);
 
   const handleEmployeeMobileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const raw = e.target.value;
-    if (!raw || raw === '+' || raw === '+9') {
-      setEmployeeMobile('+91');
-      return;
-    }
-    if (!raw.startsWith('+')) {
-      const digitsOnly = raw.replace(/\D/g, '');
-      if (digitsOnly.startsWith('91') && digitsOnly.length > 10) {
-        setEmployeeMobile(`+${digitsOnly}`);
-      } else {
-        setEmployeeMobile(`+91${digitsOnly}`);
-      }
-      return;
-    }
-    const prefix = raw.startsWith('+91') ? '+91' : '+';
-    const rest = raw.slice(prefix.length).replace(/\D/g, '');
-    setEmployeeMobile(`${prefix}${rest}`);
+    const digitsOnly = e.target.value.replace(/\D/g, '').slice(0, 10);
+    setEmployeeMobile(digitsOnly);
   };
 
   // Admin Login Submission
@@ -69,10 +54,20 @@ export const LoginPage: React.FC = () => {
     e.preventDefault();
     setError(null);
     setSuccessMsg(null);
+
+    const digits = employeeMobile.replace(/\D/g, '');
+    if (!digits) {
+      setError('Please enter your 10-digit registered mobile number.');
+      return;
+    }
+    if (!/^[6-9]\d{9}$/.test(digits)) {
+      setError('Please enter a valid 10-digit mobile number (starts with 6, 7, 8, or 9).');
+      return;
+    }
+
     setLoading(true);
     try {
-      const trimmedMobile = employeeMobile.trim();
-      const finalMobile = trimmedMobile.startsWith('+') ? trimmedMobile : `+91${trimmedMobile.replace(/\D/g, '')}`;
+      const finalMobile = `+91${digits}`;
       const res = await loginEmployee({
         full_name: employeeName.trim(),
         mobile_number: finalMobile,
@@ -214,17 +209,12 @@ export const LoginPage: React.FC = () => {
                   />
 
                   <Input
-                    label="Registered Mobile Number (E.164)"
-                    placeholder="+919876543210"
+                    label="Registered Mobile Number"
+                    placeholder="e.g. 9876543210 (10 digits)"
                     value={employeeMobile}
                     onChange={handleEmployeeMobileChange}
-                    onFocus={(e) => {
-                      if (e.target.value === '+91') {
-                        const len = e.target.value.length;
-                        e.target.setSelectionRange(len, len);
-                      }
-                    }}
-                    helperText="+91 country code pre-filled. Enter your 10-digit mobile number."
+                    maxLength={10}
+                    helperText="Enter your 10-digit registered mobile number."
                     required
                   />
 

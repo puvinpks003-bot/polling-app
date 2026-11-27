@@ -1,3 +1,4 @@
+import re
 from rest_framework import serializers
 from django.utils import timezone
 from .models import (
@@ -35,8 +36,13 @@ class DepartmentSerializer(serializers.ModelSerializer):
 
 class EmployeeSerializer(serializers.ModelSerializer):
     department_name = serializers.CharField(source='department.name', read_only=True)
-    joining_date = serializers.DateField(required=False)
-    email = serializers.EmailField(required=False, allow_null=True, allow_blank=True)
+    employee_id = serializers.CharField(required=True, allow_blank=False, max_length=50)
+    full_name = serializers.CharField(required=True, allow_blank=False, max_length=150)
+    mobile_number = serializers.CharField(required=True, allow_blank=False, max_length=25)
+    department = serializers.PrimaryKeyRelatedField(queryset=Department.objects.all(), required=True, allow_null=False)
+    designation = serializers.CharField(required=True, allow_blank=False, max_length=100)
+    email = serializers.CharField(required=False, allow_null=True, allow_blank=True)
+    joining_date = serializers.DateField(required=False, allow_null=True)
 
     class Meta:
         model = Employee
@@ -46,24 +52,70 @@ class EmployeeSerializer(serializers.ModelSerializer):
             'joining_date', 'is_active', 'created_at', 'updated_at'
         ]
 
-    def validate_email(self, value):
-        if not value or not str(value).strip():
-            return None
-        val = value.strip().lower()
-        qs = Employee.objects.filter(email__iexact=val)
-        if self.instance:
-            qs = qs.exclude(id=self.instance.id)
-        if qs.exists():
-            raise serializers.ValidationError("An employee with this email address already exists.")
-        return val
-
     def validate_employee_id(self, value):
         val = value.strip().upper()
+        if not val:
+            raise serializers.ValidationError("Employee ID is required.")
         qs = Employee.objects.filter(employee_id__iexact=val)
         if self.instance:
             qs = qs.exclude(id=self.instance.id)
         if qs.exists():
             raise serializers.ValidationError("An employee with this Employee ID already exists.")
+        return val
+
+    def validate_full_name(self, value):
+        val = ' '.join(value.strip().split())
+        if not val:
+            raise serializers.ValidationError("Full Name is required.")
+        return val
+
+    def validate_mobile_number(self, value):
+        raw = str(value or '').strip()
+        # Extract digits
+        digits = re.sub(r'\D', '', raw)
+        # If user entered 91xxxxxxxxxx (12 digits), strip country code 91
+        if len(digits) == 12 and digits.startswith('91'):
+            digits = digits[2:]
+
+        # Validate Indian 10-digit mobile number starting with 6, 7, 8, or 9
+        if not re.match(r'^[6-9]\d{9}$', digits):
+            raise serializers.ValidationError("Please enter a valid 10-digit mobile number (starts with 6, 7, 8, or 9).")
+
+        formatted = f"+91{digits}"
+        qs = Employee.objects.filter(mobile_number=formatted)
+        if self.instance:
+            qs = qs.exclude(id=self.instance.id)
+        if qs.exists():
+            raise serializers.ValidationError("An employee with this mobile number already exists.")
+        return formatted
+
+    def validate_designation(self, value):
+        val = ' '.join(value.strip().split())
+        if not val:
+            raise serializers.ValidationError("Designation is required.")
+        return val
+
+    def validate_email(self, value):
+        if not value or not str(value).strip():
+            return None
+        val = str(value).strip().lower()
+
+        # Email / Gmail format validation
+        email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        if not re.match(email_regex, val):
+            raise serializers.ValidationError("Please enter a valid Gmail / Email address (e.g. name@gmail.com).")
+
+        # Specific Gmail format check if domain is gmail.com
+        if val.endswith('@gmail.com'):
+            username = val[:-10]
+            if not re.match(r'^[a-zA-Z0-9.]+$', username) or '..' in username or len(username) < 3:
+                raise serializers.ValidationError("Please enter a valid Gmail address.")
+
+        qs = Employee.objects.filter(email__iexact=val)
+        if self.instance:
+            qs = qs.exclude(id=self.instance.id)
+        if qs.exists():
+            raise serializers.ValidationError("An employee with this email address already exists.")
         return val
 
 
