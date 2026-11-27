@@ -233,32 +233,10 @@ export const LoginPage: React.FC = () => {
                     <ArrowRight className="w-4 h-4 ml-1" />
                   </Button>
 
-                  <div className="p-3 bg-slate-950/60 rounded-lg border border-slate-800 text-[11px] text-slate-400 space-y-1.5">
-                    <p className="font-semibold text-slate-300">Registered Employee Login Examples (Click to fill):</p>
-                    <div className="grid grid-cols-2 gap-2 text-[10px]">
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setEmployeeName('Dinesh');
-                          setEmployeeMobile('+918883543675');
-                        }}
-                        className="p-1.5 rounded bg-slate-900 border border-slate-800 text-left hover:border-blue-500/50 hover:bg-slate-800/50 transition-colors cursor-pointer"
-                      >
-                        <p className="text-slate-400">Name / ID: <span className="text-blue-400 font-mono font-medium">Dinesh (EMP01)</span></p>
-                        <p className="text-slate-400">Mobile: <span className="text-blue-400 font-mono font-medium">+918883543675</span></p>
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setEmployeeName('EMP01');
-                          setEmployeeMobile('+918883543675');
-                        }}
-                        className="p-1.5 rounded bg-slate-900 border border-slate-800 text-left hover:border-blue-500/50 hover:bg-slate-800/50 transition-colors cursor-pointer"
-                      >
-                        <p className="text-slate-400">Name / ID: <span className="text-blue-400 font-mono font-medium">EMP01</span></p>
-                        <p className="text-slate-400">Mobile: <span className="text-blue-400 font-mono font-medium">+918883543675</span></p>
-                      </button>
-                    </div>
+                  <div className="p-3 bg-slate-950/60 rounded-lg border border-slate-800 text-[11px] text-slate-400 text-center">
+                    <p className="text-slate-400">
+                      Employees must be registered by an administrator with their authorized name/ID and mobile number to access polls.
+                    </p>
                   </div>
                 </form>
               ) : (

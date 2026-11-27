@@ -3,9 +3,12 @@ from pathlib import Path
 from datetime import timedelta
 from dotenv import load_dotenv
 
-load_dotenv()
-
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Load both root .env and backend .env
+load_dotenv(BASE_DIR.parent / '.env')
+load_dotenv(BASE_DIR / '.env')
+load_dotenv()
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'companypulse-super-secret-key-prod-2026')
 DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
@@ -62,8 +65,15 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database configuration: support DATABASE_URL, PostgreSQL with SQLite fallback
-DATABASE_URL = os.getenv('DATABASE_URL')
-if DATABASE_URL:
+if os.getenv('FORCE_SQLITE'):
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+elif os.getenv('DATABASE_URL'):
+    DATABASE_URL = os.getenv('DATABASE_URL')
     try:
         import dj_database_url
         DATABASES = {
@@ -74,10 +84,17 @@ if DATABASE_URL:
             )
         }
     except ImportError:
+        from urllib.parse import urlparse
+        u = urlparse(DATABASE_URL)
         DATABASES = {
             'default': {
-                'ENGINE': 'django.db.backends.sqlite3',
-                'NAME': BASE_DIR / 'db.sqlite3',
+                'ENGINE': 'django.db.backends.postgresql',
+                'NAME': u.path.lstrip('/'),
+                'USER': u.username,
+                'PASSWORD': u.password,
+                'HOST': u.hostname,
+                'PORT': u.port or 5432,
+                'OPTIONS': {'sslmode': 'require'} if 'sslmode=require' in DATABASE_URL else {},
             }
         }
 elif os.getenv('DB_NAME') and os.getenv('DB_HOST'):
