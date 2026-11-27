@@ -284,7 +284,7 @@ export const PollResultsPage: React.FC = () => {
                       innerRadius={50}
                       outerRadius={80}
                       paddingAngle={3}
-                      label={({ name, percent }: any) => `${(percent * 100).toFixed(0)}%`}
+                      label={({ percent }: any) => (percent >= 0.05 ? `${(percent * 100).toFixed(0)}%` : '')}
                     >
                       {results.options.map((_, index) => (
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
