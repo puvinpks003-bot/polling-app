@@ -37,11 +37,6 @@ class Command(BaseCommand):
 
         # 3. Initial Sample Employees
         employees_data = [
-            ('EMP001', 'Rahul Sharma', '+919876543210', 'rahul.s@companypulse.com', 'Engineering', 'Senior Software Engineer'),
-            ('EMP002', 'Priya Patel', '+919876543211', 'priya.p@companypulse.com', 'Human Resources', 'HR Business Partner'),
-            ('EMP003', 'Ananya Verma', '+919876543212', 'ananya.v@companypulse.com', 'Marketing', 'Marketing Lead'),
-            ('EMP004', 'David Miller', '+919876543213', 'david.m@companypulse.com', 'Sales', 'Enterprise Account Executive'),
-            ('EMP005', 'Sarah Jenkins', '+919876543214', 'sarah.j@companypulse.com', 'Operations', 'Operations Manager'),
         ]
         emp_list = []
         for emp_id, name, mobile, email, dname, role in employees_data:

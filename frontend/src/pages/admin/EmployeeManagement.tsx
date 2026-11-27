@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { employeeApi, departmentApi } from '../../lib/api';
 import { formatIndiaDate, getKolkataDateInputString } from '../../lib/date';
 import { Employee, Department } from '../../types';
-import { Button, Input, Card, Badge, Modal, Skeleton, ConfirmModal } from '../../components/ui';
+import { Button, Input, Card, Badge, Modal, Skeleton, ConfirmModal, DepartmentCombobox } from '../../components/ui';
 import {
   Users, UserPlus, FileSpreadsheet, Upload, Download,
   Search, Filter, CheckCircle2, XCircle, Edit, Trash2,
@@ -104,6 +104,21 @@ export const EmployeeManagement: React.FC = () => {
     });
     setFormError(null);
     setIsEditModalOpen(true);
+  };
+
+  const handleCreateDepartment = async (newDeptName: string) => {
+    try {
+      const created = await departmentApi.create({ name: newDeptName });
+      setDepartments((prev) => {
+        if (prev.some((d) => d.id === created.id)) return prev;
+        return [...prev, created];
+      });
+      setFormData((prev) => ({ ...prev, department: String(created.id) }));
+      return created;
+    } catch (err: any) {
+      console.error('Failed to create department:', err);
+      throw err;
+    }
   };
 
   const handleSaveEmployee = async (e: React.FormEvent) => {
@@ -392,17 +407,20 @@ export const EmployeeManagement: React.FC = () => {
 
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300">Department</label>
-              <select
-                value={formData.department}
-                onChange={(e) => setFormData({ ...formData, department: e.target.value })}
-                className="w-full px-3 py-2 bg-slate-950/70 border border-slate-800 rounded-lg text-sm text-slate-200 focus:outline-none focus:border-blue-500"
-              >
-                <option value="">Select Department</option>
-                {departments.map((d) => (
-                  <option key={d.id} value={d.id}>{d.name}</option>
-                ))}
-              </select>
+              <div className="flex items-center justify-between">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-slate-300">
+                  Department
+                </label>
+                <span className="text-[11px] text-slate-500 font-mono">
+                  Search or create new
+                </span>
+              </div>
+              <DepartmentCombobox
+                departments={departments}
+                selectedDepartmentId={formData.department}
+                onSelectDepartment={(id) => setFormData({ ...formData, department: String(id) })}
+                onCreateDepartment={handleCreateDepartment}
+              />
             </div>
             <Input
               label="Designation"

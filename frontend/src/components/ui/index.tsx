@@ -160,6 +160,7 @@ export const Skeleton: React.FC<{ className?: string }> = ({ className }) => (
 );
 
 export { CategoryCombobox } from './CategoryCombobox';
+export { DepartmentCombobox } from './DepartmentCombobox';
 export { ConfirmModal } from './ConfirmModal';
 export type { ConfirmModalProps } from './ConfirmModal';
 

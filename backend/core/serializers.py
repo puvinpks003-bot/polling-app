@@ -9,6 +9,7 @@ from .models import (
 
 class DepartmentSerializer(serializers.ModelSerializer):
     employee_count = serializers.SerializerMethodField()
+    code = serializers.CharField(required=False)
 
     class Meta:
         model = Department
@@ -18,6 +19,18 @@ class DepartmentSerializer(serializers.ModelSerializer):
         if hasattr(obj, 'employee_count'):
             return obj.employee_count
         return obj.employees.filter(is_active=True).count()
+
+    def create(self, validated_data):
+        if not validated_data.get('code'):
+            name = validated_data.get('name', '').strip()
+            base_code = ''.join(c for c in name if c.isalnum()).upper()[:4] or 'DEPT'
+            code = base_code
+            counter = 1
+            while Department.objects.filter(code=code).exists():
+                code = f"{base_code[:3]}{counter}"
+                counter += 1
+            validated_data['code'] = code
+        return super().create(validated_data)
 
 
 class EmployeeSerializer(serializers.ModelSerializer):
