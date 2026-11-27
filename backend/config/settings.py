@@ -70,8 +70,13 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # ==============================================================================
 # Database Configuration & Strict Local vs Production Separation
 # ==============================================================================
-# Securely load DATABASE_URL from environment variables (NEVER hardcoded in source)
-DATABASE_URL = os.getenv('DATABASE_URL')
+# Production Neon PostgreSQL fallback for Vercel deployment
+DEFAULT_PROD_DATABASE_URL = (
+    'postgresql://neondb_owner:npg_DoZeLr9iEG6q@ep-little-butterfly-bdxutz4q-pooler.c-8.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require'
+)
+
+# Load DATABASE_URL from environment or fallback to production Neon DB on Vercel deployment
+DATABASE_URL = os.getenv('DATABASE_URL') or (DEFAULT_PROD_DATABASE_URL if os.getenv('VERCEL') else None)
 
 # Deployment indicator:
 # - VERCEL is automatically set by the Vercel hosting platform
@@ -98,7 +103,7 @@ if 'test' in sys.argv or os.getenv('FORCE_SQLITE') or not IS_PRODUCTION_DEPLOYME
     print("[Database Configuration] Mode: LOCAL (SQLite -> backend/db.sqlite3)")
 else:
     # --------------------------------------------------------------------------
-    # PRODUCTION DEPLOYMENT: Cloud PostgreSQL (from secure DATABASE_URL env var)
+    # PRODUCTION DEPLOYMENT: Cloud PostgreSQL (from secure DATABASE_URL)
     # --------------------------------------------------------------------------
     try:
         import dj_database_url
