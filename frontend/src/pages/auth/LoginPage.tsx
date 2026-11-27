@@ -22,12 +22,32 @@ export const LoginPage: React.FC = () => {
   const [showForgotModal, setShowForgotModal] = useState(false);
 
   // Employee form
-  const [employeeName, setEmployeeName] = useState('Rahul Sharma');
-  const [employeeMobile, setEmployeeMobile] = useState('+919876543210');
+  const [employeeName, setEmployeeName] = useState('');
+  const [employeeMobile, setEmployeeMobile] = useState('+91');
   const [otpStep, setOtpStep] = useState(false);
   const [otpValue, setOtpValue] = useState('');
   const [devOtp, setDevOtp] = useState<string | null>(null);
   const [resendCooldown, setResendCooldown] = useState(0);
+
+  const handleEmployeeMobileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const raw = e.target.value;
+    if (!raw || raw === '+' || raw === '+9') {
+      setEmployeeMobile('+91');
+      return;
+    }
+    if (!raw.startsWith('+')) {
+      const digitsOnly = raw.replace(/\D/g, '');
+      if (digitsOnly.startsWith('91') && digitsOnly.length > 10) {
+        setEmployeeMobile(`+${digitsOnly}`);
+      } else {
+        setEmployeeMobile(`+91${digitsOnly}`);
+      }
+      return;
+    }
+    const prefix = raw.startsWith('+91') ? '+91' : '+';
+    const rest = raw.slice(prefix.length).replace(/\D/g, '');
+    setEmployeeMobile(`${prefix}${rest}`);
+  };
 
   // Admin Login Submission
   const handleAdminLogin = async (e: React.FormEvent) => {
@@ -51,9 +71,11 @@ export const LoginPage: React.FC = () => {
     setSuccessMsg(null);
     setLoading(true);
     try {
+      const trimmedMobile = employeeMobile.trim();
+      const finalMobile = trimmedMobile.startsWith('+') ? trimmedMobile : `+91${trimmedMobile.replace(/\D/g, '')}`;
       const res = await loginEmployee({
-        full_name: employeeName,
-        mobile_number: employeeMobile,
+        full_name: employeeName.trim(),
+        mobile_number: finalMobile,
       });
 
       // Direct login when OTP is disabled
@@ -192,11 +214,17 @@ export const LoginPage: React.FC = () => {
                   />
 
                   <Input
-                    label="Registered Mobile Number"
-                    placeholder="e.g. +918883543675 or 8883543675"
+                    label="Registered Mobile Number (E.164)"
+                    placeholder="+919876543210"
                     value={employeeMobile}
-                    onChange={(e) => setEmployeeMobile(e.target.value)}
-                    helperText="10-digit mobile number or with country code"
+                    onChange={handleEmployeeMobileChange}
+                    onFocus={(e) => {
+                      if (e.target.value === '+91') {
+                        const len = e.target.value.length;
+                        e.target.setSelectionRange(len, len);
+                      }
+                    }}
+                    helperText="+91 country code pre-filled. Enter your 10-digit mobile number."
                     required
                   />
 
@@ -206,16 +234,30 @@ export const LoginPage: React.FC = () => {
                   </Button>
 
                   <div className="p-3 bg-slate-950/60 rounded-lg border border-slate-800 text-[11px] text-slate-400 space-y-1.5">
-                    <p className="font-semibold text-slate-300">Registered Employee Login Examples:</p>
+                    <p className="font-semibold text-slate-300">Registered Employee Login Examples (Click to fill):</p>
                     <div className="grid grid-cols-2 gap-2 text-[10px]">
-                      <div className="p-1.5 rounded bg-slate-900 border border-slate-800">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setEmployeeName('Dinesh');
+                          setEmployeeMobile('+918883543675');
+                        }}
+                        className="p-1.5 rounded bg-slate-900 border border-slate-800 text-left hover:border-blue-500/50 hover:bg-slate-800/50 transition-colors cursor-pointer"
+                      >
                         <p className="text-slate-400">Name / ID: <span className="text-blue-400 font-mono font-medium">Dinesh (EMP01)</span></p>
-                        <p className="text-slate-400">Mobile: <span className="text-blue-400 font-mono font-medium">8883543675</span></p>
-                      </div>
-                      <div className="p-1.5 rounded bg-slate-900 border border-slate-800">
-                        <p className="text-slate-400">Name / ID: <span className="text-blue-400 font-mono font-medium">Rahul (EMP001)</span></p>
-                        <p className="text-slate-400">Mobile: <span className="text-blue-400 font-mono font-medium">9876543210</span></p>
-                      </div>
+                        <p className="text-slate-400">Mobile: <span className="text-blue-400 font-mono font-medium">+918883543675</span></p>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setEmployeeName('EMP01');
+                          setEmployeeMobile('+918883543675');
+                        }}
+                        className="p-1.5 rounded bg-slate-900 border border-slate-800 text-left hover:border-blue-500/50 hover:bg-slate-800/50 transition-colors cursor-pointer"
+                      >
+                        <p className="text-slate-400">Name / ID: <span className="text-blue-400 font-mono font-medium">EMP01</span></p>
+                        <p className="text-slate-400">Mobile: <span className="text-blue-400 font-mono font-medium">+918883543675</span></p>
+                      </button>
                     </div>
                   </div>
                 </form>

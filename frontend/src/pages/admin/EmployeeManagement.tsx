@@ -392,8 +392,32 @@ export const EmployeeManagement: React.FC = () => {
               label="Mobile Number (E.164)"
               placeholder="+919876543210"
               value={formData.mobile_number}
-              onChange={(e) => setFormData({ ...formData, mobile_number: e.target.value })}
-              helperText="Used for OTP verification"
+              onChange={(e) => {
+                const raw = e.target.value;
+                if (!raw || raw === '+' || raw === '+9') {
+                  setFormData({ ...formData, mobile_number: '+91' });
+                  return;
+                }
+                if (!raw.startsWith('+')) {
+                  const digits = raw.replace(/\D/g, '');
+                  if (digits.startsWith('91') && digits.length > 10) {
+                    setFormData({ ...formData, mobile_number: `+${digits}` });
+                  } else {
+                    setFormData({ ...formData, mobile_number: `+91${digits}` });
+                  }
+                  return;
+                }
+                const prefix = raw.startsWith('+91') ? '+91' : '+';
+                const rest = raw.slice(prefix.length).replace(/\D/g, '');
+                setFormData({ ...formData, mobile_number: `${prefix}${rest}` });
+              }}
+              onFocus={(e) => {
+                if (e.target.value === '+91') {
+                  const len = e.target.value.length;
+                  e.target.setSelectionRange(len, len);
+                }
+              }}
+              helperText="Used for OTP verification (+91 pre-filled)"
               required
             />
             <Input
