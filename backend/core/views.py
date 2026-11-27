@@ -103,17 +103,42 @@ class EmployeeRequestOTPView(views.APIView):
             emp_norm_email = emp.email.strip().lower() if emp.email else ''
             emp_norm_mobile = normalize_mobile(emp.mobile_number)
 
-            name_matches = (
-                emp_norm_name == norm_name
-                or emp_norm_id == norm_name
-                or emp_norm_email == norm_name
-            )
             mobile_matches = (
                 emp_norm_mobile == norm_mobile
                 or (len(norm_mobile) >= 10 and emp_norm_mobile.endswith(norm_mobile[-10:]))
             )
 
-            if name_matches and mobile_matches:
+            if not mobile_matches:
+                continue
+
+            clean_input = ''.join(c for c in norm_name if c.isalnum())
+            clean_id = ''.join(c for c in emp_norm_id if c.isalnum())
+
+            # 1. Exact match with Full Name, Employee ID, or Email
+            exact_match = (
+                emp_norm_name == norm_name
+                or emp_norm_id == norm_name
+                or emp_norm_email == norm_name
+                or clean_id == clean_input
+            )
+
+            # 2. Substring match (e.g. typing "Puvin" when full name is "Puvin S" or vice versa)
+            substring_match = (
+                norm_name in emp_norm_name
+                or emp_norm_name in norm_name
+                or (len(clean_input) >= 3 and clean_input in clean_id)
+            )
+
+            # 3. Transposition / Typo tolerance for ID (e.g. SGCS025 vs SGSC025)
+            typo_match = False
+            if len(clean_id) == len(clean_input) and len(clean_id) >= 4:
+                diff_count = sum(1 for c1, c2 in zip(clean_id, clean_input) if c1 != c2)
+                if diff_count <= 2 and sorted(clean_id) == sorted(clean_input):
+                    typo_match = True
+                elif diff_count <= 1:
+                    typo_match = True
+
+            if exact_match or substring_match or typo_match:
                 employee = emp
                 break
 
