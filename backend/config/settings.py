@@ -67,17 +67,42 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database configuration: support DATABASE_URL, PostgreSQL with SQLite fallback
-DEFAULT_PROD_DATABASE_URL = 'postgresql://neondb_owner:npg_5JvQVPeBkgh4@ep-little-butterfly-bdxutz4q-pooler.c-8.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require'
+# ==============================================================================
+# Database Configuration & Strict Local vs Production Separation
+# ==============================================================================
+# Production Neon PostgreSQL database URL (Used exclusively on server deployment)
+DEFAULT_PROD_DATABASE_URL = (
+    'postgresql://neondb_owner:npg_5JvQVPeBkgh4@ep-little-butterfly-bdxutz4q-pooler.c-8.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require'
+)
 
-if 'test' in sys.argv or os.getenv('FORCE_SQLITE'):
+# Deployment indicator:
+# - VERCEL is automatically set by the Vercel hosting platform
+# - PRODUCTION or DEPLOYED can be set on custom production servers
+# - USE_PROD_DB can be manually provided only if an engineer explicitly needs prod DB access
+IS_PRODUCTION_DEPLOYMENT = bool(
+    os.getenv('VERCEL')
+    or os.getenv('PRODUCTION', '').lower() in ('true', '1')
+    or os.getenv('ENVIRONMENT', '').lower() == 'production'
+    or os.getenv('USE_PROD_DB', '').lower() in ('true', '1')
+)
+
+if 'test' in sys.argv or os.getenv('FORCE_SQLITE') or not IS_PRODUCTION_DEPLOYMENT:
+    # --------------------------------------------------------------------------
+    # LOCAL DEVELOPMENT: Isolated local SQLite database (backend/db.sqlite3)
+    # Guaranteed to NEVER touch or disturb the production database!
+    # --------------------------------------------------------------------------
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
-elif os.getenv('DATABASE_URL') or os.getenv('VERCEL'):
-    DATABASE_URL = os.getenv('DATABASE_URL') or DEFAULT_PROD_DATABASE_URL
+    print("[Database Configuration] Mode: LOCAL (SQLite -> backend/db.sqlite3)")
+else:
+    # --------------------------------------------------------------------------
+    # PRODUCTION DEPLOYMENT: Cloud PostgreSQL (Neon DB)
+    # --------------------------------------------------------------------------
+    DATABASE_URL = os.getenv('DATABASE_URL') or os.getenv('PROD_DATABASE_URL') or DEFAULT_PROD_DATABASE_URL
     try:
         import dj_database_url
         DATABASES = {
@@ -102,36 +127,7 @@ elif os.getenv('DATABASE_URL') or os.getenv('VERCEL'):
                 'OPTIONS': {'sslmode': 'require'} if 'sslmode=require' in DATABASE_URL else {},
             }
         }
-elif os.getenv('DB_NAME') and os.getenv('DB_HOST'):
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.getenv('DB_NAME'),
-            'USER': os.getenv('DB_USER', 'postgres'),
-            'PASSWORD': os.getenv('DB_PASSWORD', 'postgres'),
-            'HOST': os.getenv('DB_HOST', 'localhost'),
-            'PORT': os.getenv('DB_PORT', '5432'),
-        }
-    }
-else:
-    sqlite_path = BASE_DIR / 'db.sqlite3'
-    if os.getenv('VERCEL'):
-        import shutil
-        tmp_db = Path('/tmp/db.sqlite3')
-        if not tmp_db.exists() and sqlite_path.exists():
-            try:
-                shutil.copyfile(sqlite_path, tmp_db)
-            except Exception:
-                pass
-        if tmp_db.exists():
-            sqlite_path = tmp_db
-
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': sqlite_path,
-        }
-    }
+    print("[Database Configuration] Mode: PRODUCTION (Neon Cloud PostgreSQL)")
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
