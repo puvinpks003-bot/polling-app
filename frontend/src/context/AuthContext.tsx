@@ -79,13 +79,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const requestEmployeeOtp = async (data: { full_name: string; mobile_number: string }) => {
     const res = await authApi.employeeRequestOtp(data);
     if (res.access) {
+      const userRole = res.role || (res.user ? 'admin' : 'employee');
+      const userData = res.user || res.employee;
       localStorage.setItem('cp_access_token', res.access);
       localStorage.setItem('cp_refresh_token', res.refresh);
-      localStorage.setItem('cp_user_role', 'employee');
-      localStorage.setItem('cp_user_data', JSON.stringify(res.employee));
+      localStorage.setItem('cp_user_role', userRole);
+      localStorage.setItem('cp_user_data', JSON.stringify(userData));
       setToken(res.access);
-      setRole('employee');
-      setUser(res.employee);
+      setRole(userRole);
+      setUser(userData);
     }
     return res;
   };
@@ -96,13 +98,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const verifyEmployeeOtp = async (data: { mobile_number: string; otp: string }) => {
     const res = await authApi.employeeVerifyOtp(data);
+    const userRole = res.role || (res.user ? 'admin' : 'employee');
+    const userData = res.user || res.employee;
     localStorage.setItem('cp_access_token', res.access);
     localStorage.setItem('cp_refresh_token', res.refresh);
-    localStorage.setItem('cp_user_role', 'employee');
-    localStorage.setItem('cp_user_data', JSON.stringify(res.employee));
+    localStorage.setItem('cp_user_role', userRole);
+    localStorage.setItem('cp_user_data', JSON.stringify(userData));
     setToken(res.access);
-    setRole('employee');
-    setUser(res.employee);
+    setRole(userRole);
+    setUser(userData);
+    return res;
   };
 
   const logout = () => {
